@@ -1,0 +1,18 @@
+.headingBtns{
+    width: 90%;
+    display: flex;   
+    margin: auto;
+    justify-content: space-between;
+    align-items: center;
+}
+.salesHeading{
+    font-size: 40px;
+}
+.flexBtns{
+    /* border: 1px solid black; */
+    display: flex;
+    align-items: center;
+}
+.flexBtn1{
+   padding: 10px;
+}
