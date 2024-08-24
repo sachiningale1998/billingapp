@@ -8,7 +8,7 @@ import "../../styles/newInvoiceForm.css"
 const NewInvoiceForm = () => {
   return (
     <div className="newInvoiceForm_Parent" >
-        <Form>
+    <Form>
       <Row className="mb-3">
         <Form.Group as={Col} controlId="formGridEmail">
           <Form.Label>Name</Form.Label>
