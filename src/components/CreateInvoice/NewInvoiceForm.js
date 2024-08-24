@@ -11,18 +11,18 @@ const NewInvoiceForm = () => {
         <Form>
       <Row className="mb-3">
         <Form.Group as={Col} controlId="formGridEmail">
-          <Form.Label>Email</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" />
+          <Form.Label>Name</Form.Label>
+          <Form.Control type="text" placeholder="Enter Name" />
         </Form.Group>
 
         <Form.Group as={Col} controlId="formGridPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" />
+          <Form.Label>GST No.</Form.Label>
+          <Form.Control type="text" placeholder="Enter GST No." />
         </Form.Group>
       </Row>
 
       <Form.Group className="mb-3" controlId="formGridAddress1">
-        <Form.Label>Address</Form.Label>
+        <Form.Label>Billing Address</Form.Label>
         <Form.Control placeholder="1234 Main St" />
       </Form.Group>
 
