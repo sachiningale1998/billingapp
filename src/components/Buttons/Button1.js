@@ -1,9 +1,16 @@
 import React from 'react'
-import { Button } from 'react-bootstrap'
+import { Button } from 'react-bootstrap';
+import {useNavigate} from "react-router-dom"
 
 const Button1 = () => {
+    let navigate = useNavigate()
+    
+    const handleClick=()=>{
+        navigate("/createInvoice")
+    }
+
   return (
-    <Button variant="primary">Create Invoice +</Button>
+    <Button onClick={handleClick} variant="primary">Create Invoice +</Button>
   )
 }
 
