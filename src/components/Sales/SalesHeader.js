@@ -11,7 +11,7 @@ const SalesHeader = () => {
           </div>
           <div className='flexBtns'>
             <div className="flexBtn1">
-              <Button1 />
+              <Button1 onC/>
             </div>
           </div>
         </div>

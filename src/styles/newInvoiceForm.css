@@ -3,3 +3,12 @@
     margin: auto;
     text-align: left;
 }
+
+@media all and (max-width: 480px) {
+    .newInvoiceForm_Parent {
+        width: 90%;
+        margin: auto;
+    }
+  }
+
+  
