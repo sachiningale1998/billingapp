@@ -45,30 +45,39 @@ const NewInvoiceForm = () => {
     }
   };
 
+  const compressImage = (canvas, quality = 0.5) => {
+    const tempCanvas = document.createElement('canvas');
+    const ctx = tempCanvas.getContext('2d');
+    tempCanvas.width = canvas.width;
+    tempCanvas.height = canvas.height;
+    ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height);
+    return tempCanvas.toDataURL('image/jpeg', quality);
+  };
+  
   const handleSubmit = (e) => {
     e.preventDefault();
   
-    // Make the hidden div visible
     const input = document.getElementById('invoicePreview');
     input.style.display = 'block';
   
-    html2canvas(input, { scale: 2 }).then((canvas) => {
-      input.style.display = 'none';  // Hide it again after capturing
-      const imgData = canvas.toDataURL('image/png');
-      
+    html2canvas(input, { scale: 1 }).then((canvas) => {
+      input.style.display = 'none'; 
+      const compressedImgData = compressImage(canvas, 0.5);
+  
       const pdf = new jsPDF('p', 'mm', 'a4');
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-      
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+  
+      pdf.addImage(compressedImgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
       const pdfBlob = pdf.output('blob');
-      
+  
       const pdfUrl = URL.createObjectURL(pdfBlob);
       setPdfUrl(pdfUrl);
     }).catch((error) => {
       console.error("Error generating PDF", error);
     });
   };
+  
 
   return (
     <div className="newInvoiceForm_Parent">
