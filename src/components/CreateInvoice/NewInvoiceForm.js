@@ -169,7 +169,7 @@ const NewInvoiceForm = () => {
             <Form.Label><h6>Tax Amount: {taxAmount}</h6></Form.Label>
           </Form.Group>
           <Form.Group as={Col}>
-            <Form.Label><h6>Total Value: {totalValue}</h6></Form.Label>
+            <Form.Label><h6>Price With Tax: {totalValue}</h6></Form.Label>
           </Form.Group>
         </Row>
 
