@@ -6,6 +6,7 @@ import Row from 'react-bootstrap/Row';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import "../../styles/newInvoiceForm.css";
+import InvoicePreview from './InvoicePreview';
 
 const NewInvoiceForm = () => {
   const [formValues, setFormValues] = useState({
@@ -178,25 +179,12 @@ const NewInvoiceForm = () => {
         </Button>
       </Form>
 
-      {/* Container to capture as PDF */}
-      <div id="invoicePreview" style={{ display: 'none' }}>
-        {/* This div should contain all the information you want to include in the PDF */}
-        <h2>Invoice</h2>
-        <p>Name: {formValues.customerName}</p>
-        <p>GST No: {formValues.customerGstNo}</p>
-        <p>Billing Address: {formValues.customerBillingAddress}</p>
-        <p>City: {formValues.customerCity}</p>
-        <p>Zip Code: {formValues.customerZipCode}</p>
-        <p>Item Name: {formValues.itemName}</p>
-        <p>Rate: {formValues.itemRate}</p>
-        <p>Quantity: {formValues.itemQuantity}</p>
-        <p>Tax Amount: {taxAmount}</p>
-        <p>Total Value: {totalValue}</p>
-      </div>
+      {/* Invoice preview component  */}
+      <InvoicePreview formValues={formValues} taxAmount={taxAmount} totalValue={totalValue} />
 
       {pdfUrl && (
         <a href={pdfUrl} download={`${formValues.customerName}-Invoice.pdf`}>
-          <Button variant="success">Download PDF</Button>
+          <Button variant="success" >Download PDF</Button>
         </a>
       )}
     </div>
