@@ -3,6 +3,8 @@ import { Route, Routes } from 'react-router-dom'
 import SalesPage from '../pages/SalesPage'
 import Navbar1 from '../components/Navbars/Navbar1'
 import CreateInvoicePage from '../pages/CreateInvoicePage'
+import RegisterPage from '../pages/RegisterPage'
+import LoginPage from '../pages/LoginPage'
 
 const CustomRoutes = () => {
   return (
@@ -11,6 +13,8 @@ const CustomRoutes = () => {
         <Routes>
             <Route path="/" element={<SalesPage />} />
             <Route path="/createInvoice" element={<CreateInvoicePage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/login" element={<LoginPage />} />
         </Routes>
     </>
   )
