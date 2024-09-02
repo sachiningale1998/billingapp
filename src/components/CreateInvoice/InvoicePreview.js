@@ -4,7 +4,7 @@ const InvoicePreview = (props) => {
   const { formValues, taxAmount, totalValue } = props;
 
   return (
-    <div id="invoicePreview" style={{ display: 'none', padding: '20px' }}>
+    <div id="invoicePreview" style={{ display: 'block', padding: '20px' }}>
       {/* Company Letterhead Section */}
       <div className="letterhead">
         <div className="row">
@@ -19,7 +19,7 @@ const InvoicePreview = (props) => {
           </div>
           <div className="col-4 text-right">
             {/* Add Company Logo Here */}
-            <img style={{width:"60px", height:"40px"}} src={empiregrouplogo} alt="Company Logo" className="company-logo" />
+            <img style={{width:"6rem", height:"4rem"}} src={empiregrouplogo} alt="Company Logo" className="company-logo" />
           </div>
         </div>
         <hr />
