@@ -1,0 +1,20 @@
+
+.companyLogoContainer {
+    width: 17%;
+    box-sizing: border-box;
+    margin-left: 10%;
+}
+.col-8 > p{
+    font-size: 13px;
+}
+.companyLogoImg{
+    width: 100%;
+}
+.customerDetailsContainer{
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+}
+.customerInfoInvoicePreview:nth-child(0){
+    margin-bottom: 0.4rem;
+}

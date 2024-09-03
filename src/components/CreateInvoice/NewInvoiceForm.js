@@ -12,6 +12,8 @@ const NewInvoiceForm = () => {
   const [formValues, setFormValues] = useState({
     customerName: "",
     customerGstNo: "",
+    customerMobileNo: "",
+    invoiceNo: "",
     customerBillingAddress: "",
     customerCity: "",
     customerZipCode: "",
@@ -46,7 +48,7 @@ const NewInvoiceForm = () => {
     }
   };
 
-  const compressImage = (canvas, quality = 0.5) => {
+  const compressImage = (canvas, quality = 1) => {
     const tempCanvas = document.createElement('canvas');
     const ctx = tempCanvas.getContext('2d');
     tempCanvas.width = canvas.width;
@@ -59,11 +61,23 @@ const NewInvoiceForm = () => {
     e.preventDefault();
   
     const input = document.getElementById('invoicePreview');
+
+    // Temporarily set the style to mimic laptop screen size
     input.style.display = 'block';
-  
+    input.style.width = '800px';  // Adjust width to match laptop screen size
+    input.style.height = 'auto';  // Let the height adjust naturally
+    input.style.overflow = 'visible';  // Ensure all content is visible
+    input.style.position = 'absolute'; // Temporarily take it out of flow to avoid page reflow
+
     html2canvas(input, { scale: 1 }).then((canvas) => {
-      input.style.display = 'none'; 
-      const compressedImgData = compressImage(canvas, 0.5);
+      // Restore styles after capturing
+      input.style.display = 'block';
+      input.style.width = '';
+      input.style.height = '';
+      input.style.overflow = '';
+      input.style.position = '';
+
+      const compressedImgData = compressImage(canvas, 1);
   
       const pdf = new jsPDF('p', 'mm', 'a4');
       const pdfWidth = pdf.internal.pageSize.getWidth();
@@ -76,6 +90,12 @@ const NewInvoiceForm = () => {
       setPdfUrl(pdfUrl);
     }).catch((error) => {
       console.error("Error generating PDF", error);
+      // Restore styles even if there's an error
+      input.style.display = 'none';
+      input.style.width = '';
+      input.style.height = '';
+      input.style.overflow = '';
+      input.style.position = '';
     });
   };
   
@@ -92,6 +112,19 @@ const NewInvoiceForm = () => {
           <Form.Group as={Col} controlId="formGridPassword">
             <Form.Label>GST No.</Form.Label>
             <Form.Control type="text" placeholder="Enter GST No." name="customerGstNo" value={formValues.customerGstNo} onChange={handleInputChange} />
+          </Form.Group>
+        </Row>
+
+
+        <Row className="mb-3">
+          <Form.Group as={Col} controlId="formGridEmail">
+            <Form.Label>Mobile No.</Form.Label>
+            <Form.Control type="text" placeholder="Customer's Mobile No." name="customerMobileNo" value={formValues.customerMobileNo} onChange={handleInputChange} />
+          </Form.Group>
+
+          <Form.Group as={Col} controlId="formGridPassword">
+            <Form.Label>Invoice No.</Form.Label>
+            <Form.Control type="text" placeholder="Invoice No." name="invoiceNo" value={formValues.invoiceNo} onChange={handleInputChange} />
           </Form.Group>
         </Row>
 
@@ -184,7 +217,7 @@ const NewInvoiceForm = () => {
 
       {pdfUrl && (
         <a href={pdfUrl} download={`${formValues.customerName}-Invoice.pdf`}>
-          <Button variant="success" >Download PDF</Button>
+          <Button variant="success" n>Download PDF</Button>
         </a>
       )}
     </div>

@@ -1,3 +1,4 @@
+
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import SalesPage from '../pages/SalesPage'
@@ -12,7 +13,7 @@ const CustomRoutes = () => {
         <Navbar1 />
         <Routes>
             <Route path="/" element={<SalesPage />} />
-            <Route path="/createInvoice" element={<CreateInvoicePage />} />
+            <Route path="/createinvoice" element={<CreateInvoicePage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/login" element={<LoginPage />} />
         </Routes>

@@ -6,7 +6,7 @@ const Button1 = () => {
     let navigate = useNavigate()
     
     const handleClick=()=>{
-        navigate("/create")
+        navigate("/createinvoice")
     }
 
   return (

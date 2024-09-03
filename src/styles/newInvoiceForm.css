@@ -1,9 +1,15 @@
+
 .newInvoiceForm_Parent{
     width: 60%;
     margin: auto;
     text-align: left;
 }
-
+#invoicePreview {
+    display: block; /* Hidden by default */
+    padding: 20px;
+    width: 800px; /* Fixed width to match desktop */
+    margin: 0 auto; /* Center alignment */
+  }
 @media all and (max-width: 480px) {
     .newInvoiceForm_Parent {
         width: 90%;
@@ -11,4 +17,3 @@
     }
   }
 
-  
