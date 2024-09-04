@@ -1,4 +1,7 @@
 
+#invoicePreview{
+    font-size: 10px;
+}
 .companyLogoContainer {
     width: 17%;
     box-sizing: border-box;
@@ -17,4 +20,21 @@
 }
 .customerInfoInvoicePreview:nth-child(0){
     margin-bottom: 0.4rem;
+}
+.textRightDataAfterTable{
+    width: 40%;
+    margin-left: 50%;
+    display: flex;
+    justify-content: space-between;
+    align-self: flex-end;
+    text-align: right;
+}
+.textRightDataAfterTableHeadings{
+    font-size: 13px;
+    font-weight: bold;
+    text-align: right;
+}
+.textRightDataAfterTableData{
+    font-size: 12px;
+    text-align: right;
 }

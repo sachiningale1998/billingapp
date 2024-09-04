@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -7,6 +8,15 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 
 function Navbar1() {
+  const [ userName, setUsername] = useState("")
+
+  useEffect(()=>{
+    let token = localStorage.getItem("token");
+    token = JSON.parse(atob(token.split('.')[1]));
+    let name = token.userName
+    setUsername(name)
+  }, [])
+
   return (
     <>
       {['sm'].map((expand) => (
@@ -21,7 +31,7 @@ function Navbar1() {
             >
               <Offcanvas.Header closeButton>
                 <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-                  Offcanvas
+                  Empire Group
                 </Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
@@ -29,7 +39,7 @@ function Navbar1() {
                   <Nav.Link href="#action1">Sales</Nav.Link>
                   <Nav.Link href="#action2">Customers</Nav.Link>
                   <NavDropdown
-                    title="Profile"
+                    title={userName}
                     id={`offcanvasNavbarDropdown-expand-${expand}`}
                   >
                     <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
@@ -38,7 +48,7 @@ function Navbar1() {
                     </NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item href="#action5">
-                      Something else here
+                      Logout
                     </NavDropdown.Item>
                   </NavDropdown>
                 </Nav>
