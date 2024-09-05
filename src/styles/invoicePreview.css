@@ -38,3 +38,8 @@
     font-size: 12px;
     text-align: right;
 }
+.colorHrLine{
+    background-color: #0997cf;
+    height: 1px;
+    margin-bottom: 0.3rem;
+}
