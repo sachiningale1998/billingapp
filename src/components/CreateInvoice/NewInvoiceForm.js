@@ -1,4 +1,4 @@
-import React, {  useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -24,10 +24,11 @@ function GetUserDetails() {
   
 }
 
+
 const NewInvoiceForm = () => {
   const [currentDate, setCurrentDate] = useState(getDate());
   const [userId, setUserId] = useState(GetUserDetails());
-  
+  const [invoiceNumber, setInvoiceNumber] = useState(0);
   const [unitOptions] = useState([
     "Choose Unit..", "Brass", "Number", "Piece", "Bag/s", "Meters", "Each", "Kg/s", "Feet", "Box/es", "Liter/s"
   ]);
@@ -40,7 +41,7 @@ const NewInvoiceForm = () => {
     customerName: "",
     customerGstNo: "",
     customerMobileNo: "",
-    invoiceNo: "",
+    invoiceNo: invoiceNumber,
     customerBillingAddress: "",
     customerCity: "",
     customerState: "",
@@ -61,6 +62,23 @@ const NewInvoiceForm = () => {
   });
 
   const [pdfUrl, setPdfUrl] = useState(null);
+
+  useEffect(() => {
+    async function getInvoiceNumber() {
+      try{
+        let resp = await fetch("http://127.0.0.1:8080/invoice/invoiceCount")
+        resp = await resp.json();
+        let count = resp.count + 1;
+        console.log("resp", count);
+        setInvoiceNumber(count);
+      }catch(error){
+        console.log("error", error);
+        
+      }
+    }
+
+    getInvoiceNumber()
+  }, [])
  
 
   const handleInputChange = (e, index) => {
@@ -84,7 +102,8 @@ const NewInvoiceForm = () => {
         ...formValues,
         [name]: value,
       });
-    } else {
+    } 
+    else {
       // If changing item details
       const updatedItems = [...formValues.items];
       updatedItems[index][name] = value;
@@ -206,6 +225,7 @@ const NewInvoiceForm = () => {
    // Prepare final data
    const updatedFormValues = {
      ...formValues,
+     invoiceNo: invoiceNumber,
      items: updatedItems,
      subTotal: subTotal.toFixed(2),
      taxableAmount: taxableAmount.toFixed(2),
@@ -296,7 +316,7 @@ const NewInvoiceForm = () => {
 
           <Form.Group as={Col} controlId="formGridPassword">
             <Form.Label>Invoice No.</Form.Label>
-            <Form.Control type="text" placeholder="Invoice No." name="invoiceNo" value={formValues.invoiceNo} onChange={handleInputChange} />
+            <Form.Control type="text" placeholder="Invoice No." name="invoiceNo" value={invoiceNumber} onChange={handleInputChange} readOnly/>
           </Form.Group>
         </Row>
 
@@ -423,22 +443,8 @@ const NewInvoiceForm = () => {
   </Button>
 </Form>
 
-
-{/* roundOffvalue
-: 
-1
-taxAmount
-: 
-4504.76
-taxableSubTotal
-: 
-25026.45
-totalValue
-: 
-29531 */}
-
       {/* Invoice preview component  */}
-      <InvoicePreview formValues={formValues} taxAmount={formValues.taxAmount} totalValue={Math.round(formValues.totalValue)} />
+      <InvoicePreview formValues={formValues} invoiceNumber={invoiceNumber} taxAmount={formValues.taxAmount} totalValue={Math.round(formValues.totalValue)} />
 
       {pdfUrl && (
         <a href={pdfUrl} download={`${formValues.customerName}-Invoice.pdf`}>

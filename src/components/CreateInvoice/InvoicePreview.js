@@ -8,7 +8,8 @@ import TermsAndConditions from '../InvoicePreviewChildren/TermsAndConditions';
 
 const InvoicePreview = (props) => {
   const { formValues } = props;
-//   console.log("formValues", formValues)
+  const invoiceNumber = props.invoiceNumber;
+//   console.log("invoiceNumber", invoiceNumber)
 const toWords = new ToWords();
 // let words = toWords.convert(452, { currency: true });
   // Calculate total tax amount and total value for all items
@@ -40,7 +41,7 @@ const toWords = new ToWords();
       <div className="customerDetailsContainer">
         <div className="customerDetailsContainerChild1">
           <p className="customerInfoInvoicePreview">
-            <strong>Invoice #:</strong> {formValues.invoiceNo}<br />
+            <strong>Invoice #:</strong> {invoiceNumber}<br />
             <strong>Customer Details:</strong><br />
             <strong>Name:</strong> {formValues.customerName}<br />
             <strong>GSTIN:</strong> {formValues.customerGstNo}<br />
