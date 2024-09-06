@@ -25,7 +25,7 @@ const Login = () => {
       });
 
       const data = await response.json();
-      console.log("data", data)
+    //   console.log("data", data)
 
       if (data.status === 'ok') {
         setSuccess('Login successful!');

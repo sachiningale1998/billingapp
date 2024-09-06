@@ -12,15 +12,32 @@ const Register = () => {
     orgEmail: '',
     orgGstNo: '',
     orgAddress: '',
-    orgPan: ''
+    orgPan: '',
+    orgPhone: '',
+    bankName: '',
+    accUserName: '',
+    accNumber: '',
+    bankBranchName: '',
+    ifscCode: ''
   });
 
+  const [orgLogoPic, setOrgLogoPic] = useState(null);
+  const [orgOwnerSignaturePic, setOrgOwnerSignaturePic] = useState(null);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleFileChange = (e) => {
+    const { name, files } = e.target;
+    if (name === 'orgLogoPic') {
+      setOrgLogoPic(files[0]);
+    } else if (name === 'orgOwnerSignaturePic') {
+      setOrgOwnerSignaturePic(files[0]);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -28,11 +45,17 @@ const Register = () => {
     setError('');
     setSuccess('');
 
+    const form = new FormData();
+    for (const key in formData) {
+      form.append(key, formData[key]);
+    }
+    if (orgLogoPic) form.append('orgLogoPic', orgLogoPic);
+    if (orgOwnerSignaturePic) form.append('orgOwnerSignaturePic', orgOwnerSignaturePic);
+
     try {
       const response = await fetch('http://127.0.0.1:8080/auth/register', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: form,
       });
 
       const data = await response.json();
@@ -48,9 +71,17 @@ const Register = () => {
           orgEmail: '',
           orgGstNo: '',
           orgAddress: '',
-          orgPan: ''
+          orgPan: '',
+          orgPhone: '',
+          bankName: '',
+          accUserName: '',
+          accNumber: '',
+          bankBranchName: '',
+          ifscCode: ''
         });
-        navigate("/login")
+        setOrgLogoPic(null);
+        setOrgOwnerSignaturePic(null);
+        navigate("/login");
       } else {
         setError(data.error);
       }
@@ -66,7 +97,8 @@ const Register = () => {
           <h2 className="mb-4">Register</h2>
           {error && <Alert variant="danger">{error}</Alert>}
           {success && <Alert variant="success">{success}</Alert>}
-          <Form style={{textAlign:"left"}} onSubmit={handleSubmit}>
+          <Form style={{ textAlign: "left" }} onSubmit={handleSubmit} encType="multipart/form-data">
+            {/* Existing input fields */}
             <Form.Group className="mb-3" controlId="formEmail">
               <Form.Label>Email address</Form.Label>
               <Form.Control
@@ -162,6 +194,94 @@ const Register = () => {
                 name="orgPan"
                 value={formData.orgPan}
                 onChange={handleChange}
+                required
+              />
+            </Form.Group>
+
+            {/* New fields for organization phone and bank details */}
+            <Form.Group className="mb-3" controlId="formOrgPhone">
+              <Form.Label>Organization Phone</Form.Label>
+              <Form.Control
+                type="tel"
+                name="orgPhone"
+                value={formData.orgPhone}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBankName">
+              <Form.Label>Bank Name</Form.Label>
+              <Form.Control
+                type="text"
+                name="bankName"
+                value={formData.bankName}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formAccUserName">
+              <Form.Label>Account User Name</Form.Label>
+              <Form.Control
+                type="text"
+                name="accUserName"
+                value={formData.accUserName}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formAccNumber">
+              <Form.Label>Account Number</Form.Label>
+              <Form.Control
+                type="text"
+                name="accNumber"
+                value={formData.accNumber}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBankBranchName">
+              <Form.Label>Bank Branch Name</Form.Label>
+              <Form.Control
+                type="text"
+                name="bankBranchName"
+                value={formData.bankBranchName}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formIfscCode">
+              <Form.Label>IFSC Code</Form.Label>
+              <Form.Control
+                type="text"
+                name="ifscCode"
+                value={formData.ifscCode}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+
+            {/* File input fields */}
+            <Form.Group className="mb-3" controlId="formOrgLogoPic">
+              <Form.Label>Organization Logo</Form.Label>
+              <Form.Control
+                type="file"
+                name="orgLogoPic"
+                onChange={handleFileChange}
+                required
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formOrgOwnerSignaturePic">
+              <Form.Label>Owner Signature Picture</Form.Label>
+              <Form.Control
+                type="file"
+                name="orgOwnerSignaturePic"
+                onChange={handleFileChange}
                 required
               />
             </Form.Group>

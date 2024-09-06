@@ -1,6 +1,7 @@
 import React from 'react'
 
-const OrgBankDetails = () => {
+const OrgBankDetails = (props) => {
+    const bankDetails = props.bankDetails;
   return (
     <div className='orgBankDetailsConatainer d-flex flex-row mb-2'> 
          <div className="p-2">
@@ -12,10 +13,10 @@ const OrgBankDetails = () => {
          </div>
          <div className="p-2">
             <p></p>
-            <p><strong>Bank Of Baroda</strong></p>
-            <p><strong>11290200000622</strong></p>
-            <p><strong>BARB0BHENDE</strong></p>
-            <p><strong>BHENDE BUDRUK, DIST AHMEDNAGAR            </strong></p>
+            <p><strong>{bankDetails.bankName}</strong></p>
+            <p><strong>{bankDetails.accNumber}</strong></p>
+            <p><strong>{bankDetails.ifscCode}</strong></p>
+            <p><strong>{bankDetails.bankBranchName}</strong></p>
          </div>
     </div>
   )

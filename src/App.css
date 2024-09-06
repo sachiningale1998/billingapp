@@ -36,3 +36,16 @@
     transform: rotate(360deg);
   }
 }
+
+
+body::-webkit-scrollbar {
+  width: 6px; /* width of the entire scrollbar */
+}
+body::-webkit-scrollbar-track {
+  background: rgb(22, 24, 22); /* color of the tracking area */
+}
+body::-webkit-scrollbar-thumb {
+  background-color: rgb(8, 171, 247); /* color of the scroll thumb */
+  border-radius: 20px; /* roundness of the scroll thumb */
+  border: 1px solid rgb(18, 20, 19); /* creates padding around scroll thumb */
+}

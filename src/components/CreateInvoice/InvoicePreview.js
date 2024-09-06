@@ -1,15 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import empiregrouplogo from "../../gallery/empiregrouplogo.jpeg";
 import "../../styles/invoicePreview.css";
 import { ToWords } from 'to-words';
 import OrgBankDetails from '../InvoicePreviewChildren/OrgBankDetails';
 import AuthSignature from '../InvoicePreviewChildren/AuthSignature';
 import TermsAndConditions from '../InvoicePreviewChildren/TermsAndConditions';
+import { useStore } from '../../context/store';
 
 const InvoicePreview = (props) => {
   const { formValues } = props;
   const invoiceNumber = props.invoiceNumber;
-//   console.log("invoiceNumber", invoiceNumber)
+  const { getUserOrgDetails } = useStore();
+  const [orgDetails, setOrgDetails] = useState(null);
+
+  useEffect(() => {
+    const fetchOrgDetails = async () => {
+      let details = await getUserOrgDetails();
+      if (details) {
+        details = details.userOrg;
+        // console.log("details", details);
+        setOrgDetails(details)
+      }
+    };
+    fetchOrgDetails();
+  }, [getUserOrgDetails]);
+  
 const toWords = new ToWords();
 // let words = toWords.convert(452, { currency: true });
   // Calculate total tax amount and total value for all items
@@ -19,24 +34,24 @@ const toWords = new ToWords();
   return (
     <div id="invoicePreview" style={{ display: "none", padding: '20px' }}>
       {/* Company Letterhead Section */}
-      <div className="letterhead">
+      {orgDetails && <div className="letterhead">
         <div className="row">
           <div className="col-8">
-            <h5 className="company-name">Empire Pavers & Cement Products</h5>
+            <h5 className="company-name">{orgDetails.orgName}</h5>
             <p className="company-info">
-              <strong>Email:</strong> empiregroups01@gmail.com<br />
-              <strong>GST No:</strong> 27BHAPN3606F2ZM<br />
-              <strong>Address:</strong> Nagapur Phata, Nevasa, Ahmednagar, Maharashtra<br />
-              <strong>Contact:</strong> 93222 20903
+              <strong>Email:</strong> {orgDetails.orgEmail}<br />
+              <strong>GST No:</strong> {orgDetails.orgGstNo}<br />
+              <strong>Address:</strong> {orgDetails.orgAddress} <br />
+              <strong>Contact:</strong> {orgDetails.orgPhone}
             </p>
           </div>
           <div className="col-4 text-right companyLogoContainer">
             {/* Add Company Logo Here */}
-            <img src={empiregrouplogo} alt="Company Logo" className="companyLogoImg" />
+            <img src={`http://127.0.0.1:8080${orgDetails.orgLogoPic}`} alt="Company Logo" className="companyLogoImg" />
           </div>
         </div>
         <div className="colorHrLine"></div>
-      </div>
+      </div>}
 
       <div className="customerDetailsContainer">
         <div className="customerDetailsContainerChild1">
@@ -81,7 +96,7 @@ const toWords = new ToWords();
                 <td>{item.itemName}</td>
                 <td>{item.itemRate}</td>
                 <td>{`${item.itemQuantity} ${item.itemUnit}`}</td>
-                <td>{(item.totalValue - item.taxAmount)}</td>
+                <td>{(item.totalValue - item.taxAmount).toFixed(2)}</td>
                 <td>{item.taxAmount}</td>
                 <td>{item.totalValue}</td>
               </tr>
@@ -110,7 +125,7 @@ const toWords = new ToWords();
             </div>
         </div>
         <div style={{textAlign:"right"}}>
-            <p> Total Amount in Words (INR) : {toWords.convert(totalTotalValue, { currency: true })}</p>
+            <p> Total Amount in Words (INR) : {toWords.convert(Math.round(totalTotalValue), { currency: true })}</p>
         </div>
         <div className="colorHrLine"></div>
 
@@ -124,10 +139,10 @@ const toWords = new ToWords();
         <div style={{display:"flex", justifyContent:"space-between"}}>
         {/* Bank details and Signature component */}
         <div>
-            <OrgBankDetails />
+            {orgDetails && <OrgBankDetails bankDetails={orgDetails.orgBankDetails} />}
         </div>
         <div>
-            <AuthSignature />
+            {orgDetails && <AuthSignature signaturePic={orgDetails.orgOwnerSignaturePic} />}
         </div>
         </div>
         {/* Terms and conditions component */}

@@ -8,14 +8,16 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 
 function Navbar1() {
-  const [ userName, setUsername] = useState("")
+  const [ userName, setUsername] = useState("User Name")
 
   useEffect(()=>{
     let token = localStorage.getItem("token");
-    token = JSON.parse(atob(token.split('.')[1]));
-    let name = token.userName
-    setUsername(name)
-  }, [])
+    if(token){
+      token = JSON.parse(atob(token.split('.')[1]));
+      let name = token.userName
+      setUsername(name)
+    }
+  }, [userName])
 
   return (
     <>
@@ -36,18 +38,21 @@ function Navbar1() {
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                  <Nav.Link href="#action1">Sales</Nav.Link>
-                  <Nav.Link href="#action2">Customers</Nav.Link>
+                  <Nav.Link href="/">Sales</Nav.Link>
+                  <Nav.Link href="/createinvoice">New Invoice +</Nav.Link>
                   <NavDropdown
                     title={userName}
                     id={`offcanvasNavbarDropdown-expand-${expand}`}
                   >
-                    <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-                    <NavDropdown.Item href="#action4">
-                      Another action
+                    <NavDropdown.Item href="/login">Login</NavDropdown.Item>
+                    <NavDropdown.Item href="/register">
+                      Register Yourself
                     </NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item href="#action5">
+                    <NavDropdown.Item onClick={()=>{
+                      localStorage.removeItem("token");
+                      window.location.href = "/login"
+                    }} href="#action5">
                       Logout
                     </NavDropdown.Item>
                   </NavDropdown>

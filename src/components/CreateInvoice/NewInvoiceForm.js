@@ -69,7 +69,7 @@ const NewInvoiceForm = () => {
         let resp = await fetch("http://127.0.0.1:8080/invoice/invoiceCount")
         resp = await resp.json();
         let count = resp.count + 1;
-        console.log("resp", count);
+        // console.log("resp", count);
         setInvoiceNumber(count);
       }catch(error){
         console.log("error", error);
