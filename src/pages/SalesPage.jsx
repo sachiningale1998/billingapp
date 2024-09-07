@@ -17,7 +17,6 @@ const SalesPage = () => {
     <div>
         <SalesHeader />
         <SalesTable />
-        <Pagination1 />
     </div>
   )
 }

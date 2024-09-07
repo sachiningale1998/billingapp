@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import empiregrouplogo from "../../gallery/empiregrouplogo.jpeg";
 import "../../styles/invoicePreview.css";
 import { ToWords } from 'to-words';
 import OrgBankDetails from '../InvoicePreviewChildren/OrgBankDetails';
@@ -12,14 +11,28 @@ const InvoicePreview = (props) => {
   const invoiceNumber = props.invoiceNumber;
   const { getUserOrgDetails } = useStore();
   const [orgDetails, setOrgDetails] = useState(null);
+  const [orgLogoPic, setOrgLogoPic] = useState('');
+
+  const getBase64ImageFromUrl = async (imageUrl) => {
+    const response = await fetch(imageUrl);
+    const blob = await response.blob();
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  };
 
   useEffect(() => {
     const fetchOrgDetails = async () => {
       let details = await getUserOrgDetails();
       if (details) {
         details = details.userOrg;
+        setOrgDetails(details);
         // console.log("details", details);
-        setOrgDetails(details)
+        const base64Logo = await getBase64ImageFromUrl(`https://invoicemakerserver.onrender.com${details.orgLogoPic}`);
+        setOrgLogoPic(base64Logo);
       }
     };
     fetchOrgDetails();
@@ -47,7 +60,13 @@ const toWords = new ToWords();
           </div>
           <div className="col-4 text-right companyLogoContainer">
             {/* Add Company Logo Here */}
-            <img src={`http://127.0.0.1:8080${orgDetails.orgLogoPic}`} alt="Company Logo" className="companyLogoImg" />
+            <img 
+                style={{ width: '100%', height:'80px' }}
+                src={orgLogoPic}
+                alt="Company Logo"
+                className="companyLogoImg" 
+                loading="lazy" 
+             />
           </div>
         </div>
         <div className="colorHrLine"></div>
