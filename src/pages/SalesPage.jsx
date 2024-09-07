@@ -1,9 +1,7 @@
 import React from 'react'
 import SalesHeader from '../components/Sales/SalesHeader'
 import SalesTable from '../components/Sales/SalesTable'
-import Pagination1 from '../components/Paginations/Pagination1'
-import { useStore } from '../context/store'
-import { useNavigate } from 'react-router-dom'
+
 
 const SalesPage = () => {
     let auth = localStorage.getItem("token")
