@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import useGetUserId from "../customHooks/useGetUserId";
 
 const StoreContext = React.createContext();
 
@@ -10,7 +9,13 @@ export function useStore() {
 
 
 export function StoreProvider({children}) {
-
+    
+    const [invoices, setInvoices] = useState([]); // Store fetched invoices
+    const [currentPage, setCurrentPage] = useState(1); // Track current page
+    const [totalPages, setTotalPages] = useState(1);   // Total pages
+    const [itemsPerPage] = useState(10);
+ 
+   
     async function getUserOrgDetails(){
 
         let userId = ""
@@ -34,7 +39,31 @@ export function StoreProvider({children}) {
     }
 
 
-    const value = { getUserOrgDetails};
+    // Function to fetch and store invoices based on search
+    async function handleSearchStore(searchQuery) {
+        try {
+            let resp = await fetch(`http://127.0.0.1:8080/invoice/searchedquery/${searchQuery}?page=${currentPage}&limit=${itemsPerPage}`);
+            if (!resp.ok) {
+                throw new Error(`HTTP error! Status: ${resp.status}`);
+            }
+            let data = await resp.json();
+            setInvoices(data.searchedInvoices); // Store invoices in state
+            setTotalPages(data.totalPages);
+            console.log("Search results: ", data);
+            return data;
+        } catch (error) {
+            console.error("Error searching: ", error.message);
+        }
+    }
+
+    const value = { 
+        getUserOrgDetails,
+        handleSearchStore, 
+        invoices, // Share the invoices data
+        currentPage,
+        totalPages,
+        setCurrentPage
+    };
       return (
         <StoreContext.Provider value={value}>{children}</StoreContext.Provider>
       );

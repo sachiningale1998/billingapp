@@ -6,9 +6,14 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import { useStore } from '../../context/store';
 
 function Navbar1() {
-  const [ userName, setUsername] = useState("User Name")
+  const [ userName, setUsername] = useState("User Name");
+  const [searchQuery, setSearchQuery] = useState("");
+  const {handleSearchStore} = useStore()
+
+
 
   useEffect(()=>{
     let token = localStorage.getItem("token");
@@ -17,7 +22,12 @@ function Navbar1() {
       let name = token.userName
       setUsername(name)
     }
-  }, [userName])
+
+  }, [userName]);
+
+  const handleSearch = async () => {
+     await handleSearchStore(searchQuery);
+  }
 
   return (
     <>
@@ -59,12 +69,13 @@ function Navbar1() {
                 </Nav>
                 <Form className="d-flex">
                   <Form.Control
+                    onChange={(e)=>setSearchQuery(e.target.value)}
                     type="search"
                     placeholder="Search"
                     className="me-2"
                     aria-label="Search"
                   />
-                  <Button variant="outline-success">Search</Button>
+                  <Button onClick={handleSearch} variant="outline-success">Search</Button>
                 </Form>
               </Offcanvas.Body>
             </Navbar.Offcanvas>

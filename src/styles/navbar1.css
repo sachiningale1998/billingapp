@@ -1,0 +1,7 @@
+.searchedSalesContainer{
+    width: 100%;
+    display:block;
+    position:relative;
+    top:14rem;
+    border: 3px soild black;
+}

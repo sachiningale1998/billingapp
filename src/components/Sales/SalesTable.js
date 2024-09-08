@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import Pagination from 'react-bootstrap/Pagination';
+import { useStore } from '../../context/store';
+import SearchedSales from './SearchedSales';
 
 const SalesTable = () => {
   const [invoices, setInvoices] = useState([]);
   const [currentPage, setCurrentPage] = useState(1); // Track current page
   const [totalPages, setTotalPages] = useState(1);   // Total pages
-  const [itemsPerPage] = useState(10);               // Items per page (fixed)
-
+  const [itemsPerPage] = useState(10);   
+  
   // Fetch invoices based on the current page
   useEffect(() => {
     const fetchInvoices = async () => {
@@ -19,12 +21,14 @@ const SalesTable = () => {
         const data = await response.json();
         setInvoices(data.invoices); // Set invoices from the API
         setTotalPages(data.totalPages); // Set total pages from the API
+        
       } catch (error) {
         console.error('There was a problem fetching invoices:', error);
       }
     };
 
     fetchInvoices();
+    
   }, [currentPage]); // Fetch data whenever the current page changes
 
   // Handle page change
@@ -44,15 +48,17 @@ const SalesTable = () => {
 
   return (
     <div>
-      {/* Table displaying invoices */}
+      {
+        <SearchedSales  />
+      }
       <Table striped responsive="sm">
         <thead>
           <tr>
-            <th>#</th>
+            <th>No</th>
             <th>Customer</th>
             <th>Amount</th>
             <th>Status</th>
-            <th>Invoice ID</th>
+            <th>Invoice-ID</th>
             <th>Date</th>
             <th>Action</th>
           </tr>
@@ -66,7 +72,7 @@ const SalesTable = () => {
                 <td>{invoice.totalValue || 'N/A'}</td>
                 <td>{invoice.paymentStatus || 'N/A'}</td>
                 <td>{invoice._id}</td>
-                <td>{new Date(invoice.createdAt).toLocaleDateString()}</td>
+                <td>{invoice.invoiceDate}</td>
                 <td>
                   <button className="btn btn-primary">View</button>
                 </td>
@@ -80,8 +86,9 @@ const SalesTable = () => {
         </tbody>
       </Table>
 
-      {/* Pagination */}
-      <Pagination size="sm">{paginationItems}</Pagination>
+      <div className="d-flex justify-content-center mt-3">
+        <Pagination size="sm">{paginationItems}</Pagination>
+      </div>
     </div>
   );
 };
