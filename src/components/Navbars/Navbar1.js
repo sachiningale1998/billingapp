@@ -11,8 +11,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Navbar1() {
   const [ userName, setUsername] = useState("User Name");
-  const [searchQuery, setSearchQuery] = useState("");
-  const {handleSearchStore} = useStore();
+  const { handleSearchStore, userId, setSearchQuery, setCurrentPage, searchQuery } = useStore(); // Use global state and functions
   const navigate = useNavigate()
 
 
@@ -25,11 +24,12 @@ function Navbar1() {
       setUsername(name)
     }
 
-  }, [userName]);
+  }, [userName, userId]);
 
   const handleSearch = async () => {
-     await handleSearchStore(searchQuery);
-  }
+    setCurrentPage(1); // Reset to page 1 on new search
+    await handleSearchStore({ searchQuery, userId, pageNumber: 1 }); // Perform search with page 1
+  };
 
   return (
     <>

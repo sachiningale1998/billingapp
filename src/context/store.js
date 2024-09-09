@@ -6,8 +6,6 @@ export function useStore() {
   return useContext(StoreContext);
 }
 
-
-
 export function StoreProvider({children}) {
     
     const [invoices, setInvoices] = useState([]); // Store fetched invoices
@@ -15,7 +13,7 @@ export function StoreProvider({children}) {
     const [totalPages, setTotalPages] = useState(1);   // Total pages
     const [itemsPerPage] = useState(10);
     const [userId, setUserId] = useState(""); // Store user ID
- 
+    const [searchQuery, setSearchQuery] = useState(""); // Store search query
    
     async function getUserOrgDetails(){
 
@@ -41,9 +39,14 @@ export function StoreProvider({children}) {
 
 
     // Function to fetch and store invoices based on search
-    async function handleSearchStore(searchQuery) {
+    async function handleSearchStore({searchQuery, userId, pageNumber=1}) {
+        // console.log(searchQuery, "userId", userId);
+        if (!searchQuery || !userId) {
+            console.error("Search query or userId is missing.");
+            return;
+        }
         try {
-            let resp = await fetch(`https://invoicemakerserver.onrender.com/invoice/searchedquery/${searchQuery}?page=${currentPage}&limit=${itemsPerPage}`);
+            let resp = await fetch(`https://invoicemakerserver.onrender.com/invoice/${userId}/searchedquery/${encodeURIComponent(searchQuery)}?page=${pageNumber}&limit=${itemsPerPage}`);
             if (!resp.ok) {
                 throw new Error(`HTTP error! Status: ${resp.status}`);
             }
@@ -62,10 +65,12 @@ export function StoreProvider({children}) {
         if(token){
             let tokenInfo = JSON.parse(atob(token.split('.')[1]));
             let user = tokenInfo.id;
-            console.log(user, "userid");
+            // console.log(user, "userid");
             setUserId(user);
+            return user;
         }
     }
+
 
     const value = { 
         getUserOrgDetails,
@@ -73,6 +78,8 @@ export function StoreProvider({children}) {
         invoices, // Share the invoices data
         currentPage,
         totalPages,
+        searchQuery, 
+        setSearchQuery,
         setCurrentPage,
         getUserId,
         userId

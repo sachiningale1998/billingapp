@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import Pagination from 'react-bootstrap/Pagination';
 import { useStore } from '../../context/store';
 
 const SearchedSales = () => {
-  const { invoices, currentPage, totalPages, setCurrentPage } = useStore();
+    const { invoices, totalPages, currentPage, setCurrentPage, handleSearchStore, userId, searchQuery } = useStore();
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
+    const handlePageChange = async (pageNumber) => {
+      setCurrentPage(pageNumber); // Update current page
+      await handleSearchStore({ searchQuery, userId, pageNumber }); // Perform search with new page
+    };
   // Generate pagination items
   const paginationItems = [];
   for (let number = 1; number <= totalPages; number++) {
@@ -32,7 +32,7 @@ const SearchedSales = () => {
             <th>Customer</th>
             <th>Amount</th>
             <th>Status</th>
-            <th>Invoice ID</th>
+            <th>Invoice-ID</th>
             <th>Date</th>
             <th>Action</th>
           </tr>

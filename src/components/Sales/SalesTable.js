@@ -6,24 +6,25 @@ import { useStore } from '../../context/store';
 
 const SalesTable = () => {
   const [invoices, setInvoices] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1); // Track current page
-  const [totalPages, setTotalPages] = useState(1);   // Total pages
+  const [currentPage1, setCurrentPage1] = useState(1); // Track current page
+  const [totalPages1, setTotalPages1] = useState(1);   // Total pages
   const [itemsPerPage] = useState(10);
-  const {userId} = useStore();   
+  const {userId, getUserId} = useStore();   
   
   // Fetch invoices based on the current page
   useEffect(() => {
     const fetchInvoices = async () => {
       try {
-        const response = await fetch(`https://invoicemakerserver.onrender.com/invoice/${userId}/allinvoices?page=${currentPage}&limit=${itemsPerPage}`);
+        let userId= getUserId();
+        const response = await fetch(`https://invoicemakerserver.onrender.com/invoice/${userId}/allinvoices?page=${currentPage1}&limit=${itemsPerPage}`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        console.log("data: ", data);
+        // console.log("data: ", data);
         
         setInvoices(data.invoices); // Set invoices from the API
-        setTotalPages(data.totalPages); // Set total pages from the API
+        setTotalPages1(data.totalPages); // Set total pages from the API
         
       } catch (error) {
         console.error('There was a problem fetching invoices:', error);
@@ -31,19 +32,18 @@ const SalesTable = () => {
     };
 
     fetchInvoices();
-    
-  }, [currentPage, itemsPerPage]); // Fetch data whenever the current page changes
+  }, [currentPage1, itemsPerPage, userId]); // Fetch data whenever the current page changes
 
   // Handle page change
   const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
+    setCurrentPage1(pageNumber);
   };
 
   // Generate pagination items
   const paginationItems = [];
-  for (let number = 1; number <= totalPages; number++) {
+  for (let number = 1; number <= totalPages1; number++) {
     paginationItems.push(
-      <Pagination.Item key={number} active={number === currentPage} onClick={() => handlePageChange(number)}>
+      <Pagination.Item key={number} active={number === currentPage1} onClick={() => handlePageChange(number)}>
         {number}
       </Pagination.Item>
     );
@@ -68,7 +68,7 @@ const SalesTable = () => {
           {invoices.length > 0 ? (
             invoices.map((invoice, index) => (
               <tr key={invoice._id}>
-                <td>{index + 1 + (currentPage - 1) * itemsPerPage}</td>
+                <td>{index + 1 + (currentPage1 - 1) * itemsPerPage}</td>
                 <td>{invoice.customerName || 'N/A'}</td>
                 <td>{invoice.totalValue || 'N/A'}</td>
                 <td>{invoice.paymentStatus || 'N/A'}</td>
