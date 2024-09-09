@@ -78,7 +78,7 @@ const Login = () => {
       </Row>
       <Row>
         <div xs={12} md={6} className="d-flex justify-content-center mt-3">
-          <p>Don't have an account? <a href="/register">Register here</a></p>
+          <p>Don't have an account? <a onClick={()=> navigate("/register")}>Register here</a></p>
         </div>
       </Row>
     </Container>

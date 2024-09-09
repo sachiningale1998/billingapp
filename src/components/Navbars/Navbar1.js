@@ -36,7 +36,7 @@ function Navbar1() {
       {['sm'].map((expand) => (
         <Navbar key={expand} expand={expand} className="bg-body-tertiary mb-3">
           <Container fluid>
-            <Navbar.Brand style={{fontSize:"2rem", fontWeight:'700'}} href="/">Empire Group</Navbar.Brand>
+            <Navbar.Brand style={{fontSize:"2rem", fontWeight:'700'}} onClick={()=> navigate("/")} >Empire Group</Navbar.Brand>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
             <Navbar.Offcanvas
               id={`offcanvasNavbar-expand-${expand}`}
@@ -50,21 +50,21 @@ function Navbar1() {
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                  <Nav.Link href="/">Sales</Nav.Link>
-                  <Nav.Link href="/createinvoice">New Invoice +</Nav.Link>
+                  <Nav.Link onClick={()=> navigate("/")} >Sales</Nav.Link>
+                  <Nav.Link onClick={()=> navigate("/CREATEINVOICE")} >New Invoice +</Nav.Link>
                   <NavDropdown
                     title={userName}
                     id={`offcanvasNavbarDropdown-expand-${expand}`}
                   >
-                    <NavDropdown.Item href="/login">Login</NavDropdown.Item>
-                    <NavDropdown.Item href="/register">
+                    <NavDropdown.Item onClick={()=> navigate("/login")} >Login</NavDropdown.Item>
+                    <NavDropdown.Item onClick={()=> navigate("/register")} >
                       Register Yourself
                     </NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item onClick={()=>{
                       localStorage.removeItem("token");
                       navigate("/login")
-                    }} href="#action5">
+                    }} >
                       Logout
                     </NavDropdown.Item>
                   </NavDropdown>
