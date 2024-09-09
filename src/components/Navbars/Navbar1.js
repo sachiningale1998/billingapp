@@ -7,11 +7,13 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { useStore } from '../../context/store';
+import { useNavigate } from 'react-router-dom';
 
 function Navbar1() {
   const [ userName, setUsername] = useState("User Name");
   const [searchQuery, setSearchQuery] = useState("");
-  const {handleSearchStore} = useStore()
+  const {handleSearchStore} = useStore();
+  const navigate = useNavigate()
 
 
 
@@ -61,7 +63,7 @@ function Navbar1() {
                     <NavDropdown.Divider />
                     <NavDropdown.Item onClick={()=>{
                       localStorage.removeItem("token");
-                      window.location.href = "/login"
+                      navigate("/login")
                     }} href="#action5">
                       Logout
                     </NavDropdown.Item>

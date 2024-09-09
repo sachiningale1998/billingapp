@@ -1,11 +1,13 @@
 import React from 'react'
 import CreateInvoice from '../components/CreateInvoice/CreateInvoice'
+import { useNavigate } from 'react-router-dom'
 
 const CreateInvoicePage = () => {
+    const navigate = useNavigate()
     let auth = localStorage.getItem("token")
     if (!auth) {
         setTimeout(()=>{
-            window.location.href = '/login'
+            navigate('/login')
         }, 3000)
         return <h1>Unauthorized Access.. returnig you to login page </h1>
     }

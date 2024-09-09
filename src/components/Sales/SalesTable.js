@@ -28,7 +28,7 @@ const SalesTable = () => {
 
     fetchInvoices();
     
-  }, [currentPage]); // Fetch data whenever the current page changes
+  }, [currentPage, itemsPerPage]); // Fetch data whenever the current page changes
 
   // Handle page change
   const handlePageChange = (pageNumber) => {
