@@ -51,7 +51,7 @@ function Navbar1() {
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
                   <Nav.Link onClick={()=> navigate("/")} >Sales</Nav.Link>
-                  <Nav.Link onClick={()=> navigate("/CREATEINVOICE")} >New Invoice +</Nav.Link>
+                  <Nav.Link onClick={()=> navigate("/createinvoice")} >New Invoice +</Nav.Link>
                   <NavDropdown
                     title={userName}
                     id={`offcanvasNavbarDropdown-expand-${expand}`}

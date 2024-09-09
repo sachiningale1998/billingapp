@@ -2,22 +2,26 @@ import React, { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import Pagination from 'react-bootstrap/Pagination';
 import SearchedSales from './SearchedSales';
+import { useStore } from '../../context/store';
 
 const SalesTable = () => {
   const [invoices, setInvoices] = useState([]);
   const [currentPage, setCurrentPage] = useState(1); // Track current page
   const [totalPages, setTotalPages] = useState(1);   // Total pages
-  const [itemsPerPage] = useState(10);   
+  const [itemsPerPage] = useState(10);
+  const {userId} = useStore();   
   
   // Fetch invoices based on the current page
   useEffect(() => {
     const fetchInvoices = async () => {
       try {
-        const response = await fetch(`https://invoicemakerserver.onrender.com/invoice/allinvoices?page=${currentPage}&limit=${itemsPerPage}`);
+        const response = await fetch(`https://invoicemakerserver.onrender.com/invoice/${userId}/allinvoices?page=${currentPage}&limit=${itemsPerPage}`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
+        console.log("data: ", data);
+        
         setInvoices(data.invoices); // Set invoices from the API
         setTotalPages(data.totalPages); // Set total pages from the API
         

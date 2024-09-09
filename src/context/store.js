@@ -14,6 +14,7 @@ export function StoreProvider({children}) {
     const [currentPage, setCurrentPage] = useState(1); // Track current page
     const [totalPages, setTotalPages] = useState(1);   // Total pages
     const [itemsPerPage] = useState(10);
+    const [userId, setUserId] = useState(""); // Store user ID
  
    
     async function getUserOrgDetails(){
@@ -56,13 +57,25 @@ export function StoreProvider({children}) {
         }
     }
 
+    function getUserId(){
+        let token = localStorage.getItem('token') || null;
+        if(token){
+            let tokenInfo = JSON.parse(atob(token.split('.')[1]));
+            let user = tokenInfo.id;
+            console.log(user, "userid");
+            setUserId(user);
+        }
+    }
+
     const value = { 
         getUserOrgDetails,
         handleSearchStore, 
         invoices, // Share the invoices data
         currentPage,
         totalPages,
-        setCurrentPage
+        setCurrentPage,
+        getUserId,
+        userId
     };
       return (
         <StoreContext.Provider value={value}>{children}</StoreContext.Provider>
