@@ -25,8 +25,8 @@ function GetUserDetails() {
 
 
 const NewInvoiceForm = () => {
-  const [currentDate, setCurrentDate] = useState(getDate());
-  const [userId, setUserId] = useState(GetUserDetails());
+  const [currentDate] = useState(getDate());
+  const [userId] = useState(GetUserDetails());
   const [invoiceNumber, setInvoiceNumber] = useState(0);
   const [unitOptions] = useState([
     "Choose Unit..", "Brass", "Number", "Piece", "Bag/s", "Meters", "Each", "Kg/s", "Feet", "Box/es", "Liter/s"

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import Pagination from 'react-bootstrap/Pagination';
-import { useStore } from '../../context/store';
 import SearchedSales from './SearchedSales';
 
 const SalesTable = () => {
