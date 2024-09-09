@@ -14,7 +14,7 @@ const SalesTable = () => {
   useEffect(() => {
     const fetchInvoices = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:8080/invoice/allinvoices?page=${currentPage}&limit=${itemsPerPage}`);
+        const response = await fetch(`https://invoicemakerserver.onrender.com/invoice/allinvoices?page=${currentPage}&limit=${itemsPerPage}`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -48,9 +48,7 @@ const SalesTable = () => {
 
   return (
     <div>
-      {
-        <SearchedSales  />
-      }
+      <SearchedSales />
       <Table striped responsive="sm">
         <thead>
           <tr>
@@ -67,8 +65,8 @@ const SalesTable = () => {
           {invoices.length > 0 ? (
             invoices.map((invoice, index) => (
               <tr key={invoice._id}>
-                <td>{index + 1 + (currentPage - 1) * itemsPerPage}</td> {/* Adjust index for current page */}
-                <td>{invoice.customerName || 'N/A'}</td> {/* Adjust field names */}
+                <td>{index + 1 + (currentPage - 1) * itemsPerPage}</td>
+                <td>{invoice.customerName || 'N/A'}</td>
                 <td>{invoice.totalValue || 'N/A'}</td>
                 <td>{invoice.paymentStatus || 'N/A'}</td>
                 <td>{invoice._id}</td>

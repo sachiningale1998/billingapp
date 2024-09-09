@@ -18,7 +18,7 @@ const Login = () => {
     setSuccess('');
 
     try {
-      const response = await fetch('http://127.0.0.1:8080/auth/login', {
+      const response = await fetch('https://invoicemakerserver.onrender.com/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -75,6 +75,11 @@ const Login = () => {
             </Button>
           </Form>
         </Col>
+      </Row>
+      <Row>
+        <div xs={12} md={6} className="d-flex justify-content-center mt-3">
+          <p>Don't have an account? <a href="/register">Register here</a></p>
+        </div>
       </Row>
     </Container>
   );

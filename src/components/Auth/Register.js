@@ -53,7 +53,7 @@ const Register = () => {
     if (orgOwnerSignaturePic) form.append('orgOwnerSignaturePic', orgOwnerSignaturePic);
 
     try {
-      const response = await fetch('http://127.0.0.1:8080/auth/register', {
+      const response = await fetch('https://invoicemakerserver.onrender.com/auth/register', {
         method: 'POST',
         body: form,
       });
@@ -100,7 +100,7 @@ const Register = () => {
           <Form style={{ textAlign: "left" }} onSubmit={handleSubmit} encType="multipart/form-data">
             {/* Existing input fields */}
             <Form.Group className="mb-3" controlId="formEmail">
-              <Form.Label>Email address</Form.Label>
+              <Form.Label>Email address *</Form.Label>
               <Form.Control
                 type="email"
                 name="email"
@@ -111,7 +111,7 @@ const Register = () => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formOrgOwnerName">
-              <Form.Label>Organization Owner Name</Form.Label>
+              <Form.Label>Organization Owner Name *</Form.Label>
               <Form.Control
                 type="text"
                 name="orgOwnerName"
@@ -122,7 +122,7 @@ const Register = () => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formMobile">
-              <Form.Label>Mobile Number</Form.Label>
+              <Form.Label>Mobile Number *</Form.Label>
               <Form.Control
                 type="tel"
                 name="mobile"
@@ -133,7 +133,7 @@ const Register = () => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formPassword">
-              <Form.Label>Password</Form.Label>
+              <Form.Label>Password *</Form.Label>
               <Form.Control
                 type="password"
                 name="password"
@@ -144,7 +144,7 @@ const Register = () => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formOrgName">
-              <Form.Label>Organization Name</Form.Label>
+              <Form.Label>Organization Name *</Form.Label>
               <Form.Control
                 type="text"
                 name="orgName"
@@ -155,7 +155,7 @@ const Register = () => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formOrgEmail">
-              <Form.Label>Organization Email</Form.Label>
+              <Form.Label>Organization Email *</Form.Label>
               <Form.Control
                 type="email"
                 name="orgEmail"
@@ -166,7 +166,7 @@ const Register = () => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formOrgGstNo">
-              <Form.Label>Organization GST Number</Form.Label>
+              <Form.Label>Organization GST Number *</Form.Label>
               <Form.Control
                 type="text"
                 name="orgGstNo"
@@ -177,7 +177,7 @@ const Register = () => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formOrgAddress">
-              <Form.Label>Organization Address</Form.Label>
+              <Form.Label>Organization Address *</Form.Label>
               <Form.Control
                 type="text"
                 name="orgAddress"
@@ -188,7 +188,7 @@ const Register = () => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formOrgPan">
-              <Form.Label>Organization PAN</Form.Label>
+              <Form.Label>Organization PAN *</Form.Label>
               <Form.Control
                 type="text"
                 name="orgPan"
@@ -200,7 +200,7 @@ const Register = () => {
 
             {/* New fields for organization phone and bank details */}
             <Form.Group className="mb-3" controlId="formOrgPhone">
-              <Form.Label>Organization Phone</Form.Label>
+              <Form.Label>Organization Phone *</Form.Label>
               <Form.Control
                 type="tel"
                 name="orgPhone"
@@ -211,7 +211,7 @@ const Register = () => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBankName">
-              <Form.Label>Bank Name</Form.Label>
+              <Form.Label>Bank Name *</Form.Label>
               <Form.Control
                 type="text"
                 name="bankName"
@@ -222,7 +222,7 @@ const Register = () => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formAccUserName">
-              <Form.Label>Account User Name</Form.Label>
+              <Form.Label>Account User Name *</Form.Label>
               <Form.Control
                 type="text"
                 name="accUserName"
@@ -233,7 +233,7 @@ const Register = () => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formAccNumber">
-              <Form.Label>Account Number</Form.Label>
+              <Form.Label>Account Number *</Form.Label>
               <Form.Control
                 type="text"
                 name="accNumber"
@@ -244,7 +244,7 @@ const Register = () => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBankBranchName">
-              <Form.Label>Bank Branch Name</Form.Label>
+              <Form.Label>Bank Branch Name *</Form.Label>
               <Form.Control
                 type="text"
                 name="bankBranchName"
@@ -255,7 +255,7 @@ const Register = () => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formIfscCode">
-              <Form.Label>IFSC Code</Form.Label>
+              <Form.Label>IFSC Code *</Form.Label>
               <Form.Control
                 type="text"
                 name="ifscCode"
@@ -267,7 +267,7 @@ const Register = () => {
 
             {/* File input fields */}
             <Form.Group className="mb-3" controlId="formOrgLogoPic">
-              <Form.Label>Organization Logo</Form.Label>
+              <Form.Label>Organization Logo *</Form.Label>
               <Form.Control
                 type="file"
                 name="orgLogoPic"
@@ -277,7 +277,7 @@ const Register = () => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formOrgOwnerSignaturePic">
-              <Form.Label>Owner Signature Picture</Form.Label>
+              <Form.Label>Owner Signature Picture *</Form.Label>
               <Form.Control
                 type="file"
                 name="orgOwnerSignaturePic"

@@ -114,12 +114,12 @@ today = dd + '/' + mm + '/' + yyyy;
       <Form onSubmit={handleSubmit}>
         <Row className="mb-3">
           <Form.Group as={Col} controlId="formGridEmail">
-            <Form.Label>Name</Form.Label>
+            <Form.Label>Name *</Form.Label>
             <Form.Control type="text" placeholder="Enter Name" name="customerName" value={formValues.customerName} onChange={handleInputChange} />
           </Form.Group>
 
           <Form.Group as={Col} controlId="formGridPassword">
-            <Form.Label>GST No.</Form.Label>
+            <Form.Label>GST No. *</Form.Label>
             <Form.Control type="text" placeholder="Enter GST No." name="customerGstNo" value={formValues.customerGstNo} onChange={handleInputChange} />
           </Form.Group>
         </Row>
@@ -127,29 +127,29 @@ today = dd + '/' + mm + '/' + yyyy;
 
         <Row className="mb-3">
           <Form.Group as={Col} controlId="formGridEmail">
-            <Form.Label>Mobile No.</Form.Label>
+            <Form.Label>Mobile No. *</Form.Label>
             <Form.Control type="text" placeholder="Customer's Mobile No." name="customerMobileNo" value={formValues.customerMobileNo} onChange={handleInputChange} />
           </Form.Group>
 
           <Form.Group as={Col} controlId="formGridPassword">
-            <Form.Label>Invoice No.</Form.Label>
+            <Form.Label>Invoice No. *</Form.Label>
             <Form.Control type="text" placeholder="Invoice No." name="invoiceNo" value={formValues.invoiceNo} onChange={handleInputChange} />
           </Form.Group>
         </Row>
 
         <Form.Group className="mb-3" controlId="formGridAddress1">
-          <Form.Label>Billing Address</Form.Label>
+          <Form.Label>Billing Address *</Form.Label>
           <Form.Control placeholder="1234 Main St" name="customerBillingAddress" value={formValues.customerBillingAddress} onChange={handleInputChange} />
         </Form.Group>
 
         <Row className="mb-3">
           <Form.Group as={Col} controlId="formGridCity">
-            <Form.Label>City</Form.Label>
+            <Form.Label>City *</Form.Label>
             <Form.Control name="customerCity" value={formValues.customerCity} onChange={handleInputChange} />
           </Form.Group>
 
           <Form.Group as={Col} controlId="formGridState">
-            <Form.Label>State</Form.Label>
+            <Form.Label>State *</Form.Label>
             <Form.Select defaultValue="Choose..." name="customerState" onChange={handleInputChange}>
               <option>Choose...</option>
               <option>...</option>
@@ -157,7 +157,7 @@ today = dd + '/' + mm + '/' + yyyy;
           </Form.Group>
 
           <Form.Group as={Col} controlId="formGridZip">
-            <Form.Label>Zip Code</Form.Label>
+            <Form.Label>Zip Code *</Form.Label>
             <Form.Control name="customerZipCode" value={formValues.customerZipCode} onChange={handleInputChange} />
           </Form.Group>
         </Row>
@@ -167,18 +167,18 @@ today = dd + '/' + mm + '/' + yyyy;
         </Row>
 
         <Form.Group className="mb-3" controlId="formGridAddress1">
-          <Form.Label>Item</Form.Label>
+          <Form.Label>Item *</Form.Label>
           <Form.Control placeholder="Item name" name="itemName" value={formValues.itemName} onChange={handleInputChange} />
         </Form.Group>
 
         <Row className="mb-3">
           <Form.Group as={Col} controlId="formGridCity">
-            <Form.Label>Rate</Form.Label>
+            <Form.Label>Rate *</Form.Label>
             <Form.Control name="itemRate" value={formValues.itemRate} onChange={handleInputChange} />
           </Form.Group>
 
           <Form.Group as={Col} controlId="formGridState">
-            <Form.Label>Unit</Form.Label>
+            <Form.Label>Unit *</Form.Label>
             <Form.Select defaultValue="Choose unit..." name="itemUnit" onChange={handleInputChange}>
               <option>Choose ...</option>
               <option>Brass</option>
@@ -197,25 +197,25 @@ today = dd + '/' + mm + '/' + yyyy;
 
         <Row className="mb-3">
           <Form.Group as={Col} controlId="formGridCity">
-            <Form.Label>Quantity</Form.Label>
+            <Form.Label>Quantity *</Form.Label>
             <Form.Control name="itemQuantity" value={formValues.itemQuantity} onChange={handleInputChange} />
           </Form.Group>
 
           <Form.Group as={Col} controlId="formGridZip">
-            <Form.Label>{"Product Code (HSN / SAC)"}</Form.Label>
+            <Form.Label>{"Product Code (HSN / SAC)"} *</Form.Label>
             <Form.Control name="itemCode" value={formValues.itemCode} onChange={handleInputChange} />
           </Form.Group>
         </Row>
 
         <Row className="mb-3">
           <Form.Group as={Col}>
-            <Form.Label><h6>Taxable Amount (18%): {formValues.itemRate * formValues.itemQuantity}</h6></Form.Label>
+            <Form.Label><h6>Taxable Amount (18%): {formValues.itemRate * formValues.itemQuantity}</h6> *</Form.Label>
           </Form.Group>
           <Form.Group as={Col}>
-            <Form.Label><h6>Tax Payable: {taxAmount}</h6></Form.Label>
+            <Form.Label><h6>Tax Payable: {taxAmount}</h6> *</Form.Label>
           </Form.Group>
           <Form.Group as={Col}>
-            <Form.Label><h6>Price With Tax: {totalValue}</h6></Form.Label>
+            <Form.Label><h6>Price With Tax: {totalValue}</h6> *</Form.Label>
           </Form.Group>
         </Row>
 

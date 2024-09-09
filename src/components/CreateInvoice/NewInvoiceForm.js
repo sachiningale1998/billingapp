@@ -20,8 +20,7 @@ function GetUserDetails() {
   let token = localStorage.getItem("token");
   token = JSON.parse(atob(token.split('.')[1]));
   let userId = token.id;
-  return userId
-  
+  return userId  
 }
 
 
@@ -66,7 +65,7 @@ const NewInvoiceForm = () => {
   useEffect(() => {
     async function getInvoiceNumber() {
       try{
-        let resp = await fetch("http://127.0.0.1:8080/invoice/invoiceCount")
+        let resp = await fetch("https://invoicemakerserver.onrender.com/invoice/invoiceCount")
         resp = await resp.json();
         let count = resp.count + 1;
         // console.log("resp", count);
@@ -265,7 +264,7 @@ const NewInvoiceForm = () => {
       setPdfUrl(pdfUrl);
 
       // POST request to the backend API
-    fetch('http://127.0.0.1:8080/invoice/newinvoice', {
+    fetch('https://invoicemakerserver.onrender.com/invoice/newinvoice', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -297,46 +296,47 @@ const NewInvoiceForm = () => {
      <Form onSubmit={handleSubmit}>
      <Row className="mb-3">
           <Form.Group as={Col} controlId="formGridEmail">
-            <Form.Label>Name</Form.Label>
-            <Form.Control type="text" placeholder="Enter Name" name="customerName" value={formValues.customerName} onChange={handleInputChange} />
+            <Form.Label>Name *</Form.Label>
+            <Form.Control type="text" placeholder="Enter Name" name="customerName" value={formValues.customerName} onChange={handleInputChange} required />
           </Form.Group>
 
           <Form.Group as={Col} controlId="formGridPassword">
-            <Form.Label>GST No.</Form.Label>
-            <Form.Control type="text" placeholder="Enter GST No." name="customerGstNo" value={formValues.customerGstNo} onChange={handleInputChange} />
+            <Form.Label>GST No. *</Form.Label>
+            <Form.Control type="text" placeholder="Enter GST No." name="customerGstNo" value={formValues.customerGstNo} onChange={handleInputChange} required />
           </Form.Group>
         </Row>
 
 
         <Row className="mb-3">
           <Form.Group as={Col} controlId="formGridEmail">
-            <Form.Label>Mobile No.</Form.Label>
-            <Form.Control type="text" placeholder="Customer's Mobile No." name="customerMobileNo" value={formValues.customerMobileNo} onChange={handleInputChange} />
+            <Form.Label>Mobile No. *</Form.Label>
+            <Form.Control type="text" placeholder="Customer's Mobile No." name="customerMobileNo" value={formValues.customerMobileNo} onChange={handleInputChange} required />
           </Form.Group>
 
           <Form.Group as={Col} controlId="formGridPassword">
-            <Form.Label>Invoice No.</Form.Label>
-            <Form.Control type="text" placeholder="Invoice No." name="invoiceNo" value={invoiceNumber} onChange={handleInputChange} readOnly/>
+            <Form.Label>Invoice No. *</Form.Label>
+            <Form.Control type="text" placeholder="Invoice No." name="invoiceNo" value={invoiceNumber} onChange={handleInputChange} readOnly required/>
           </Form.Group>
         </Row>
 
         <Form.Group className="mb-3" controlId="formGridAddress1">
-          <Form.Label>Billing Address</Form.Label>
-          <Form.Control placeholder="1234 Main St" name="customerBillingAddress" value={formValues.customerBillingAddress} onChange={handleInputChange} />
+          <Form.Label>Billing Address *</Form.Label>
+          <Form.Control placeholder="1234 Main St" name="customerBillingAddress" value={formValues.customerBillingAddress} onChange={handleInputChange} required />
         </Form.Group>
 
         <Row className="mb-3">
           <Form.Group as={Col} controlId="formGridCity">
-            <Form.Label>City</Form.Label>
-            <Form.Control name="customerCity" value={formValues.customerCity} onChange={handleInputChange} />
+            <Form.Label>City *</Form.Label>
+            <Form.Control name="customerCity" value={formValues.customerCity} onChange={handleInputChange} required />
           </Form.Group>
 
           <Form.Group as={Col} controlId="formGridState">
-            <Form.Label>State</Form.Label>
+            <Form.Label>State *</Form.Label>
             <Form.Select
               name="customerState"
               value={formValues.customerState}
               onChange={handleInputChange}
+              required
             >
               {stateOptions.map((state, idx) => (
                 <option key={idx} value={state}>{state}</option>
@@ -345,8 +345,8 @@ const NewInvoiceForm = () => {
           </Form.Group>
 
           <Form.Group as={Col} controlId="formGridZip">
-            <Form.Label>Zip Code</Form.Label>
-            <Form.Control name="customerZipCode" value={formValues.customerZipCode} onChange={handleInputChange} />
+            <Form.Label>Zip Code *</Form.Label>
+            <Form.Control name="customerZipCode" value={formValues.customerZipCode} onChange={handleInputChange} required />
           </Form.Group>
         </Row>
 
@@ -356,41 +356,45 @@ const NewInvoiceForm = () => {
     <div key={index} className="itemDetails">
       <Row className="mb-3">
         <Form.Group as={Col} controlId={`itemName-${index}`}>
-          <Form.Label>Item Name</Form.Label>
+          <Form.Label>Item Name *</Form.Label>
           <Form.Control
             placeholder="Item name"
             name="itemName"
             value={item.itemName}
             onChange={(e) => handleInputChange(e, index)}
+            required
           />
         </Form.Group>
 
         <Form.Group as={Col} controlId={`itemRate-${index}`}>
-          <Form.Label>Rate</Form.Label>
+          <Form.Label>Rate *</Form.Label>
           <Form.Control
             name="itemRate"
             value={item.itemRate}
             onChange={(e) => handleInputChange(e, index)}
+            required
           />
         </Form.Group>
       </Row>
 
       <Row className="mb-3">
         <Form.Group as={Col} controlId={`itemQuantity-${index}`}>
-          <Form.Label>Quantity</Form.Label>
+          <Form.Label>Quantity *</Form.Label>
           <Form.Control
             name="itemQuantity"
             value={item.itemQuantity}
             onChange={(e) => handleInputChange(e, index)}
+            required
           />
         </Form.Group>
 
         <Form.Group as={Col} controlId="formGridState">
-          <Form.Label>Unit</Form.Label>
+          <Form.Label>Unit *</Form.Label>
           <Form.Select
             name="itemUnit"
             value={item.itemUnit}
             onChange={(e) => handleInputChange(e, index)}
+            required
           >
             {unitOptions.map((unit, idx) => (
               <option key={idx} value={unit}>{unit}</option>
@@ -399,24 +403,25 @@ const NewInvoiceForm = () => {
         </Form.Group>
 
         <Form.Group as={Col} controlId={`itemCode-${index}`}>
-          <Form.Label>Product Code (HSN / SAC)</Form.Label>
+          <Form.Label>Prd code(HSN/SAC) *</Form.Label>
           <Form.Control
             name="itemCode"
             value={item.itemCode}
             onChange={(e) => handleInputChange(e, index)}
+            required
           />
         </Form.Group>
       </Row>
 
       <Row className="mb-3">
         <Form.Group as={Col}>
-          <Form.Label><h6>Taxable Amount (18%): {item.itemRate * item.itemQuantity}</h6></Form.Label>
+          <Form.Label><h6>Taxable Amount (18%): {item.itemRate * item.itemQuantity}</h6> </Form.Label>
         </Form.Group>
         <Form.Group as={Col}>
-          <Form.Label><h6>Tax Payable: {item.taxAmount}</h6></Form.Label>
+          <Form.Label><h6>Tax Payable: {item.taxAmount}</h6> </Form.Label>
         </Form.Group>
         <Form.Group as={Col}>
-          <Form.Label><h6>Price With Tax: {item.totalValue}</h6></Form.Label>
+          <Form.Label><h6>Price With Tax: {item.totalValue}</h6> </Form.Label>
         </Form.Group>
       </Row>
 

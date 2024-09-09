@@ -14,7 +14,7 @@ const useUserOrgDetails = () => {
 
     const fetchUserOrgDetails = async (userId) => {
         try {
-            const response = await fetch(`http://127.0.0.1:8080/invoice/userOrgDeatils/${userId}`)
+            const response = await fetch(`https://invoicemakerserver.onrender.com/invoice/userOrgDeatils/${userId}`)
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`)
             }

@@ -27,7 +27,7 @@ export function StoreProvider({children}) {
         //   console.log("userId", userId);          
         }
         try {
-            const response = await fetch(`http://127.0.0.1:8080/invoice/userOrgDetails/${userId}`)
+            const response = await fetch(`https://invoicemakerserver.onrender.com/invoice/userOrgDetails/${userId}`)
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`)
             }
@@ -42,14 +42,14 @@ export function StoreProvider({children}) {
     // Function to fetch and store invoices based on search
     async function handleSearchStore(searchQuery) {
         try {
-            let resp = await fetch(`http://127.0.0.1:8080/invoice/searchedquery/${searchQuery}?page=${currentPage}&limit=${itemsPerPage}`);
+            let resp = await fetch(`https://invoicemakerserver.onrender.com/invoice/searchedquery/${searchQuery}?page=${currentPage}&limit=${itemsPerPage}`);
             if (!resp.ok) {
                 throw new Error(`HTTP error! Status: ${resp.status}`);
             }
             let data = await resp.json();
             setInvoices(data.searchedInvoices); // Store invoices in state
             setTotalPages(data.totalPages);
-            console.log("Search results: ", data);
+            // console.log("Search results: ", data);
             return data;
         } catch (error) {
             console.error("Error searching: ", error.message);
