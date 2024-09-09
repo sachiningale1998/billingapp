@@ -78,7 +78,18 @@ const Login = () => {
       </Row>
       <Row>
         <div xs={12} md={6} className="d-flex justify-content-center mt-3">
-          <p>Don't have an account? <a onClick={()=> navigate("/register")}>Register here</a></p>
+          <p>Don't have an account? 
+          <span 
+            style={{
+                color: "blue", 
+                textDecoration: "underline", 
+                cursor: "pointer"
+            }} 
+            onClick={() => navigate("/register")}
+           >
+            Register here
+</span>
+          </p>
         </div>
       </Row>
     </Container>
