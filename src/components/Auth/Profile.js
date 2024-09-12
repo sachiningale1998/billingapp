@@ -8,6 +8,7 @@ const Profile = () => {
     email: '',
     orgOwnerName: '',
     mobile: '',
+    password: '',
     orgName: '',
     orgEmail: '',
     orgGstNo: '',
@@ -68,7 +69,7 @@ const Profile = () => {
     if (orgOwnerSignaturePic) form.append('orgOwnerSignaturePic', orgOwnerSignaturePic);
 
     try {
-      const response = await fetch('https://empiregroupsoftwares.netlify.app/auth/updateprofile', {
+      const response = await fetch('https://empiregroupsoftwares.onrender.com/auth/updateprofile', {
         method: 'PUT',
         body: form,
       });
@@ -121,6 +122,17 @@ const Profile = () => {
                 type="tel"
                 name="mobile"
                 value={formData.mobile}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formPassword">
+              <Form.Label>Password *</Form.Label>
+              <Form.Control
+                type="password"
+                name="password"
+                value={formData.password}
                 onChange={handleChange}
                 required
               />
