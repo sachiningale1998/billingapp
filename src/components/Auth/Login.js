@@ -6,6 +6,7 @@ const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [showPassword, setShowPassword] = useState(false); // New state for password visibility
   const navigate = useNavigate()
 
   const handleChange = (e) => {
@@ -40,6 +41,11 @@ const Login = () => {
     }
   };
 
+  
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword); // Toggle password visibility state
+  };
+
   return (
     <Container>
       <Row className="justify-content-md-center">
@@ -60,14 +66,19 @@ const Login = () => {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
+              <Form.Label>Password *</Form.Label>
+              <div className="d-flex">
+                <Form.Control
+                  type={showPassword ? 'text' : 'password'} // Conditionally show text or password
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                />
+                <Button variant="outline-secondary" onClick={toggleShowPassword} className="ml-2">
+                  {showPassword ? 'Hide' : 'Show'} {/* Change text based on visibility */}
+                </Button>
+              </div>
             </Form.Group>
 
             <Button variant="primary" type="submit" className="w-100">
