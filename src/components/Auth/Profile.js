@@ -69,7 +69,7 @@ const Profile = () => {
     if (orgOwnerSignaturePic) form.append('orgOwnerSignaturePic', orgOwnerSignaturePic);
 
     try {
-      const response = await fetch('https://empiregroupsoftwares.netlify.app/auth/updateprofile', {
+      const response = await fetch('https://invoicemakerserver.onrender.com/auth/updateprofile', {
         method: 'PUT',
         body: form,
       });
