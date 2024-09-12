@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Form, Container, Row, Col, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { useStore } from '../../context/store';
 
-const Register = () => {
+const Profile = () => {
   const [formData, setFormData] = useState({
     email: '',
     orgOwnerName: '',
@@ -26,6 +27,21 @@ const Register = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
+  const {getUserOrgDetails} = useStore()
+
+  useEffect(() => {
+    // Fetch the current user's details when the component mounts
+    const fetchUserData = async () => {
+       let profile =  await getUserOrgDetails();
+
+       console.log("profile", profile.userOrg);
+       if(profile.userOrg){
+            setFormData(profile.userOrg)
+       }
+       
+    };
+    fetchUserData();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -53,40 +69,20 @@ const Register = () => {
     if (orgOwnerSignaturePic) form.append('orgOwnerSignaturePic', orgOwnerSignaturePic);
 
     try {
-      const response = await fetch('https://invoicemakerserver.onrender.com/auth/register', {
-        method: 'POST',
+      const response = await fetch('http://127.0.0.1:8080/auth/updateprofile', {
+        method: 'PUT',
         body: form,
       });
 
       const data = await response.json();
-
+      console.log(data, "data");
       if (data.status === 'ok') {
-        setSuccess('Registration successful!');
-        setFormData({
-          email: '',
-          orgOwnerName: '',
-          mobile: '',
-          password: '',
-          orgName: '',
-          orgEmail: '',
-          orgGstNo: '',
-          orgAddress: '',
-          orgPan: '',
-          orgPhone: '',
-          bankName: '',
-          bankAccUserName: '',
-          bankAccNumber: '',
-          bankBranchName: '',
-          bankIfscCode: ''
-        });
-        setOrgLogoPic(null);
-        setOrgOwnerSignaturePic(null);
-        navigate("/login");
+        setSuccess('Profile updated successfully!');
       } else {
         setError(data.error);
       }
     } catch (error) {
-      setError('An error occurred during registration.');
+      setError('An error occurred while updating the profile.');
     }
   };
 
@@ -287,7 +283,7 @@ const Register = () => {
             </Form.Group>
 
             <Button variant="primary" type="submit" className="w-100">
-              Register
+              Update
             </Button>
           </Form>
         </Col>
@@ -296,4 +292,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Profile;

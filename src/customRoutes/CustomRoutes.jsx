@@ -6,6 +6,7 @@ import Navbar1 from '../components/Navbars/Navbar1'
 import CreateInvoicePage from '../pages/CreateInvoicePage'
 import RegisterPage from '../pages/RegisterPage'
 import LoginPage from '../pages/LoginPage'
+import ProfilePage from '../pages/ProfilePage'
 
 const CustomRoutes = () => {
   return (
@@ -16,6 +17,7 @@ const CustomRoutes = () => {
             <Route path="/createinvoice" element={<CreateInvoicePage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
         </Routes>
     </>
   )

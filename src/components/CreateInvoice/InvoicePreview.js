@@ -158,7 +158,7 @@ const toWords = new ToWords();
         <div style={{display:"flex", justifyContent:"space-between"}}>
         {/* Bank details and Signature component */}
         <div>
-            {orgDetails && <OrgBankDetails bankDetails={orgDetails.orgBankDetails} />}
+            {orgDetails && <OrgBankDetails bankDetails={orgDetails} />}
         </div>
         <div>
             {orgDetails && <AuthSignature signaturePic={orgDetails.orgOwnerSignaturePic} />}

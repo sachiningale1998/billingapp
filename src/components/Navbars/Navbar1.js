@@ -60,7 +60,12 @@ function Navbar1() {
                     <NavDropdown.Item onClick={()=> navigate("/register")} >
                       Register Yourself
                     </NavDropdown.Item>
-                    <NavDropdown.Divider />
+                    <NavDropdown.Item onClick={()=>{
+                      navigate("/profile")
+                    }} >
+                      My Profile
+                    </NavDropdown.Item>
+                      <NavDropdown.Divider />
                     <NavDropdown.Item onClick={()=>{
                       localStorage.removeItem("token");
                       navigate("/login")
