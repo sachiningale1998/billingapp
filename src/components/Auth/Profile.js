@@ -89,7 +89,8 @@ const Profile = () => {
     <Container>
       <Row className="justify-content-md-center">
         <Col xs={12} md={6}>
-          <h2 className="mb-4">Register</h2>
+          <h2 className="mb-4">Profile</h2>
+          <p>Please Be aware while updating your profile details - The password you can see below is the encrypted password, so <span style={{color:"red"}}>YOU MUST ENTER YOUR CURRENT PASSWORD or ENTER NEW PASSWORD</span> & <span style={{color:"orangered"}}> Also you need to select new Logo & Signature Pic</span> </p>
           {error && <Alert variant="danger">{error}</Alert>}
           {success && <Alert variant="success">{success}</Alert>}
           <Form style={{ textAlign: "left" }} onSubmit={handleSubmit} encType="multipart/form-data">
