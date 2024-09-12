@@ -8,7 +8,6 @@ const Profile = () => {
     email: '',
     orgOwnerName: '',
     mobile: '',
-    password: '',
     orgName: '',
     orgEmail: '',
     orgGstNo: '',
