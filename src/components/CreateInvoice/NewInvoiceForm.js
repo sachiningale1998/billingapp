@@ -30,11 +30,11 @@ const NewInvoiceForm = () => {
     customerName: "",
     customerGstNo: "",
     customerMobileNo: "",
-    invoiceNo: "",
     customerBillingAddress: "",
     customerCity: "",
     customerState: "",
     customerZipCode: "",
+    invoiceNo: "",
     items: [
       {
         itemName: "",
@@ -303,11 +303,26 @@ const NewInvoiceForm = () => {
   };
 
   const handleSuggestionClick = (name) => {
-    setFormValues({
-      ...formValues,
-      customerName: name
-    });
-    setCustomerSuggestions([]);
+    fetch(`https://invicemakerserver.onrender.com/invoice/${userId}/customerdetails/${name}`)
+      .then(response => response.json())
+      .then(data => {
+        // console.log(data, "data");
+        
+        // Assuming the backend returns the customer details in a format like:
+        // { gstNo, mobileNo, billingAddress, city, state, zipCode }
+        setFormValues({
+          ...formValues,
+          customerName: name,
+          customerGstNo: data.customerGstNo || "",
+          customerMobileNo: data.customerMobileNo || "",
+          customerBillingAddress: data.customerBillingAddress || "",
+          customerCity: data.customerCity || "",
+          customerState: data.customerState || "",
+          customerZipCode: data.customerZipCode || ""
+        });
+        setCustomerSuggestions([]);  // Clear suggestions
+      })
+      .catch(error => console.error('Error fetching customer details:', error));
   };
 
   return (
@@ -341,28 +356,12 @@ const NewInvoiceForm = () => {
             <Form.Control type="text" placeholder="Customer's Mobile No." name="customerMobileNo" value={formValues.customerMobileNo} onChange={handleInputChange} required />
           </Form.Group>
 
-          <Form.Group as={Col} controlId="formGridPassword">
-            <Form.Label>Invoice No. *</Form.Label>
-            <Form.Control type="text" placeholder="Invoice No." name="invoiceNo" value={formValues.invoiceNo} onChange={handleInputChange}  required/>
-          </Form.Group>
-        </Row>
-
-        <Row className="mb-3">
-          <Form.Group style={{width:"50%"}} as={Col} controlId="formGridEmail">
-              <Form.Label>Invoice Date *</Form.Label>
-              <Form.Control
-                type="date"
-                name="invoiceDate"
-                value={formValues.invoiceDate}
-                onChange={handleInputChange}
-                required
-                />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formGridAddress1">
+          <Form.Group className="mb-3" controlId="formGridAddress1">
               <Form.Label>Billing Address *</Form.Label>
               <Form.Control placeholder="1234 Main St" name="customerBillingAddress" value={formValues.customerBillingAddress} onChange={handleInputChange} required />
-            </Form.Group>
-          </Row>
+          </Form.Group>
+          
+        </Row>
 
         <Row className="mb-3">
           <Form.Group as={Col} controlId="formGridCity">
@@ -392,6 +391,23 @@ const NewInvoiceForm = () => {
 
   {/* Other customer details fields */}
 
+       <Row className="mb-3">
+          <Form.Group style={{width:"50%"}} as={Col} controlId="formGridEmail">
+              <Form.Label>Invoice Date *</Form.Label>
+              <Form.Control
+                type="date"
+                name="invoiceDate"
+                value={formValues.invoiceDate}
+                onChange={handleInputChange}
+                required
+                />
+            </Form.Group>
+
+          <Form.Group as={Col} controlId="formGridPassword">
+            <Form.Label>Invoice No. *</Form.Label>
+            <Form.Control type="text" placeholder="Invoice No." name="invoiceNo" value={formValues.invoiceNo} onChange={handleInputChange}  required/>
+          </Form.Group>   
+        </Row>
   {formValues.items.map((item, index) => (
     <div key={index} className="itemDetails">
       <Row className="mb-3">

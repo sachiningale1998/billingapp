@@ -61,11 +61,12 @@ const ShowInvoice = (props) => {
                     <p><strong>Total Value:</strong> {invoiceData.totalValue}</p>
                 </div>
 
-                <div>
+                <div className="table-responsive">
                     <h5>Items</h5>
                     <Table striped bordered hover>
                         <thead>
                             <tr>
+                                <th>Sr No.</th>
                                 <th>Item Code</th>
                                 <th>Item Name</th>
                                 <th>Quantity</th>
@@ -79,6 +80,7 @@ const ShowInvoice = (props) => {
                         <tbody>
                             {invoiceData.items.map((item, index) => (
                                 <tr key={index}>
+                                    <td>{index + 1}</td>
                                     <td>{item.itemCode}</td>
                                     <td>{item.itemName}</td>
                                     <td>{item.itemQuantity}</td>
