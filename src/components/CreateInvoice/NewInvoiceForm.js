@@ -75,7 +75,7 @@ const NewInvoiceForm = () => {
       if (debounceTimer) clearTimeout(debounceTimer);
 
       const timer = setTimeout(() => {
-        fetch(`http://127.0.0.1:8080/invoice/${userId}/customernames/${value}`)
+        fetch(`https://invoicemakerserver.onrender.com/invoice/${userId}/customernames/${value}`)
           .then(response => response.json())
           .then(data => {
             setCustomerSuggestions(data.customerNames || []);
