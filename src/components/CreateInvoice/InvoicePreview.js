@@ -110,13 +110,13 @@ const toWords = new ToWords();
           <tbody>
             {formValues.items.map((item, index) => (
               <tr key={index}>
-                <td>{index + 1}</td>
-                <td>{item.itemName}</td>
-                <td>{item.itemRate}</td>
-                <td>{`${item.itemQuantity} ${item.itemUnit}`}</td>
-                <td>{(item.totalValue - item.taxAmount).toFixed(2)}</td>
-                <td>{item.taxAmount}</td>
-                <td>{item.totalValue}</td>
+                <td style={{ backgroundColor: '#f4f4f4', border: '1px solid #ddd' }}>{index + 1}</td>
+                <td style={{ backgroundColor: '#f4f4f4', border: '1px solid #ddd' }}>{item.itemName}</td>
+                <td style={{ backgroundColor: '#f4f4f4', border: '1px solid #ddd' }}>{item.itemRate}</td>
+                <td style={{ backgroundColor: '#f4f4f4', border: '1px solid #ddd' }}>{`${item.itemQuantity} ${item.itemUnit}`}</td>
+                <td style={{ backgroundColor: '#f4f4f4', border: '1px solid #ddd' }}>{(item.totalValue - item.taxAmount).toFixed(2)}</td>
+                <td style={{ backgroundColor: '#f4f4f4', border: '1px solid #ddd' }}>{item.taxAmount}</td>
+                <td style={{ backgroundColor: '#f4f4f4', border: '1px solid #ddd' }}>{item.totalValue}</td>
               </tr>
             ))}
             <tr>
