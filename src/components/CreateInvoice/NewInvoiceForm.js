@@ -52,13 +52,39 @@ const NewInvoiceForm = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [pdfUrl, setPdfUrl] = useState(null);
+  const [customerSuggestions, setCustomerSuggestions] = useState([]);
+  const [debounceTimer, setDebounceTimer] = useState(null);
  
+  useEffect(() => {
+    // Clean up the debounce timer on unmount
+    return () => {
+      if (debounceTimer) clearTimeout(debounceTimer);
+    };
+  }, [debounceTimer]);
 
   const handleInputChange = (e, index) => {
     const { name, value } = e.target;
   
     // If changing customer details
-    if (name === 'itemUnit') {
+    if (name === 'customerName') {
+      setFormValues({
+        ...formValues,
+        [name]: value
+      });
+
+      if (debounceTimer) clearTimeout(debounceTimer);
+
+      const timer = setTimeout(() => {
+        fetch(`http://127.0.0.1:8080/invoice/${userId}/customernames/${value}`)
+          .then(response => response.json())
+          .then(data => {
+            setCustomerSuggestions(data.customerNames || []);
+          })
+          .catch(error => console.error('Error fetching customer names:', error));
+      }, 300);
+
+      setDebounceTimer(timer);
+    } else if (name === 'itemUnit') {
       const updatedItems = [...formValues.items];
       updatedItems[index][name] = value;
       setFormValues({
@@ -276,13 +302,30 @@ const NewInvoiceForm = () => {
     });
   };
 
+  const handleSuggestionClick = (name) => {
+    setFormValues({
+      ...formValues,
+      customerName: name
+    });
+    setCustomerSuggestions([]);
+  };
+
   return (
     <div className="newInvoiceForm_Parent">
      <Form onSubmit={handleSubmit}>
      <Row className="mb-3">
           <Form.Group as={Col} controlId="formGridEmail">
-            <Form.Label>Name *</Form.Label>
+            <Form.Label> Customer Name *</Form.Label>
             <Form.Control type="text" placeholder="Enter Name" name="customerName" value={formValues.customerName} onChange={handleInputChange} required />
+            {customerSuggestions.length > 0 && (
+              <ul className="suggestion-list">
+                {customerSuggestions.map((name, index) => (
+                  <li key={index} onClick={() => handleSuggestionClick(name)}>
+                    {name}
+                  </li>
+                ))}
+              </ul>
+            )}
           </Form.Group>
 
           <Form.Group as={Col} controlId="formGridPassword">
