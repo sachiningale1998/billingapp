@@ -304,7 +304,7 @@ const NewInvoiceForm = () => {
 
   const handleSuggestionClick = (name) => {
     const encodedCustomerName = encodeURIComponent(name);
-    fetch(`https://invicemakerserver.onrender.com/invoice/${userId}/customerdetails/${encodedCustomerName}`)
+    fetch(`https://invoicemakerserver.onrender.com/invoice/${userId}/customerdetails/${encodedCustomerName}`)
       .then(response => response.json())
       .then(data => {
         // console.log(data, "data");
