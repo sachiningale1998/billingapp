@@ -7,14 +7,7 @@ import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import "../../styles/newInvoiceForm.css";
 import InvoicePreview from './InvoicePreview';
-
-function getDate() {
-  const today = new Date();
-  const month = today.getMonth() + 1;
-  const year = today.getFullYear();
-  const date = today.getDate();
-  return `0${date}/0${month}/${year}`;
-}
+import { Alert } from 'react-bootstrap';
 
 function GetUserDetails() {
   let token = localStorage.getItem("token");
@@ -23,11 +16,8 @@ function GetUserDetails() {
   return userId  
 }
 
-
 const NewInvoiceForm = () => {
-  const [currentDate] = useState(getDate());
   const [userId] = useState(GetUserDetails());
-  const [invoiceNumber, setInvoiceNumber] = useState(0);
   const [unitOptions] = useState([
     "Choose Unit..", "Brass", "Number", "Piece", "Bag/s", "Meters", "Each", "Kg/s", "Feet", "Box/es", "Liter/s"
   ]);
@@ -40,7 +30,7 @@ const NewInvoiceForm = () => {
     customerName: "",
     customerGstNo: "",
     customerMobileNo: "",
-    invoiceNo: invoiceNumber,
+    invoiceNo: "",
     customerBillingAddress: "",
     customerCity: "",
     customerState: "",
@@ -57,27 +47,11 @@ const NewInvoiceForm = () => {
         totalValue: 0
       }
     ],
-    invoiceDate: currentDate.toString()
+    invoiceDate: ""
   });
-
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [pdfUrl, setPdfUrl] = useState(null);
-
-  useEffect(() => {
-    async function getInvoiceNumber() {
-      try{
-        let resp = await fetch("https://invoicemakerserver.onrender.com/invoice/invoiceCount")
-        resp = await resp.json();
-        let count = resp.count + 1;
-        // console.log("resp", count);
-        setInvoiceNumber(count);
-      }catch(error){
-        console.log("error", error);
-        
-      }
-    }
-
-    getInvoiceNumber()
-  }, [])
  
 
   const handleInputChange = (e, index) => {
@@ -96,7 +70,15 @@ const NewInvoiceForm = () => {
         ...formValues,
         [name]: value,
       });
-    } else if (name !== 'itemName' && name !== 'itemRate' && name !== 'itemQuantity' && name !== 'itemCode') {
+    } else if (name === 'invoiceDate') {
+      setFormValues({
+        ...formValues,
+        [name]: value,
+      });
+      console.log("date", value);
+      
+    } 
+    else if (name !== 'itemName' && name !== 'itemRate' && name !== 'itemQuantity' && name !== 'itemCode') {
       setFormValues({
         ...formValues,
         [name]: value,
@@ -224,7 +206,6 @@ const NewInvoiceForm = () => {
    // Prepare final data
    const updatedFormValues = {
      ...formValues,
-     invoiceNo: invoiceNumber,
      items: updatedItems,
      subTotal: subTotal.toFixed(2),
      taxableAmount: taxableAmount.toFixed(2),
@@ -273,7 +254,11 @@ const NewInvoiceForm = () => {
     })
       .then(response => response.json())
       .then(data => {
-        console.log('Invoice successfully posted:', data);
+        if(data){
+          setSuccess(data.message)
+        }else{
+          setError(data.error)
+        }
       })
       .catch(error => {
         console.error('Error posting invoice:', error);
@@ -315,14 +300,26 @@ const NewInvoiceForm = () => {
 
           <Form.Group as={Col} controlId="formGridPassword">
             <Form.Label>Invoice No. *</Form.Label>
-            <Form.Control type="text" placeholder="Invoice No." name="invoiceNo" value={invoiceNumber} onChange={handleInputChange} readOnly required/>
+            <Form.Control type="text" placeholder="Invoice No." name="invoiceNo" value={formValues.invoiceNo} onChange={handleInputChange}  required/>
           </Form.Group>
         </Row>
 
-        <Form.Group className="mb-3" controlId="formGridAddress1">
-          <Form.Label>Billing Address *</Form.Label>
-          <Form.Control placeholder="1234 Main St" name="customerBillingAddress" value={formValues.customerBillingAddress} onChange={handleInputChange} required />
-        </Form.Group>
+        <Row className="mb-3">
+          <Form.Group style={{width:"50%"}} as={Col} controlId="formGridEmail">
+              <Form.Label>Invoice Date *</Form.Label>
+              <Form.Control
+                type="date"
+                name="invoiceDate"
+                value={formValues.invoiceDate}
+                onChange={handleInputChange}
+                required
+                />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formGridAddress1">
+              <Form.Label>Billing Address *</Form.Label>
+              <Form.Control placeholder="1234 Main St" name="customerBillingAddress" value={formValues.customerBillingAddress} onChange={handleInputChange} required />
+            </Form.Group>
+          </Row>
 
         <Row className="mb-3">
           <Form.Group as={Col} controlId="formGridCity">
@@ -448,13 +445,21 @@ const NewInvoiceForm = () => {
   </Button>
 </Form>
 
+  <div>
+      {error && <Alert variant="danger">{error}</Alert>}
+      {success && <Alert variant="success">{success}</Alert>}
+  </div>
       {/* Invoice preview component  */}
-      <InvoicePreview formValues={formValues} invoiceNumber={invoiceNumber} taxAmount={formValues.taxAmount} totalValue={Math.round(formValues.totalValue)} />
+      <InvoicePreview formValues={formValues} taxAmount={formValues.taxAmount} totalValue={Math.round(formValues.totalValue)} />
 
       {pdfUrl && (
-        <a href={pdfUrl} download={`${formValues.customerName}-Invoice.pdf`}>
-          <Button variant="success" n>Download PDF</Button>
-        </a>
+        <div className="download-button">
+          <a href={pdfUrl} download={`${formValues.customerName}_Invoice_${formValues.invoiceNo}.pdf`}>
+            <Button variant="success">
+              Download PDF
+            </Button>
+          </a>
+        </div>
       )}
     </div>
   );

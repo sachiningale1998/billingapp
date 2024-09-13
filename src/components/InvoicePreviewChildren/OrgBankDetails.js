@@ -1,12 +1,13 @@
 import React from 'react'
 
 const OrgBankDetails = (props) => {
-    const bankDetails = props;
+    const bankDetails = props.orgDetails;
   return (
     <div className='orgBankDetailsConatainer d-flex flex-row mb-2'> 
          <div className="p-2">
          <strong>Bank Details</strong>
             <p>Bank :</p>
+            <p>Acc Holder :</p>
             <p>Account # : </p>
             <p>IFSC Code :</p>
             <p>Branch :</p>

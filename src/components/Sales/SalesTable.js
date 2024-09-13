@@ -3,13 +3,15 @@ import Table from 'react-bootstrap/Table';
 import Pagination from 'react-bootstrap/Pagination';
 import SearchedSales from './SearchedSales';
 import { useStore } from '../../context/store';
+import { useNavigate } from 'react-router-dom';
 
 const SalesTable = () => {
   const [invoices, setInvoices] = useState([]);
   const [currentPage1, setCurrentPage1] = useState(1); // Track current page
   const [totalPages1, setTotalPages1] = useState(1);   // Total pages
   const [itemsPerPage] = useState(10);
-  const {userId, getUserId} = useStore();   
+  const {userId, getUserId} = useStore();
+  const navigate= useNavigate()   
   
   // Fetch invoices based on the current page
   useEffect(() => {
@@ -59,7 +61,7 @@ const SalesTable = () => {
             <th>Customer</th>
             <th>Amount</th>
             <th>Status</th>
-            <th>Invoice-ID</th>
+            <th>Invoice No</th>
             <th>Date</th>
             <th>Action</th>
           </tr>
@@ -72,10 +74,13 @@ const SalesTable = () => {
                 <td>{invoice.customerName || 'N/A'}</td>
                 <td>{invoice.totalValue || 'N/A'}</td>
                 <td>{invoice.paymentStatus || 'N/A'}</td>
-                <td>{invoice._id}</td>
+                <td>{invoice.invoiceNo}</td>
                 <td>{invoice.invoiceDate}</td>
                 <td>
-                  <button className="btn btn-primary">View</button>
+                  <button
+                   onClick={() => navigate(`/invoice/${invoice.userId}/${invoice._id}`)}
+                   className="btn btn-primary"
+                   >Edit</button>
                 </td>
               </tr>
             ))

@@ -8,7 +8,6 @@ import { useStore } from '../../context/store';
 
 const InvoicePreview = (props) => {
   const { formValues } = props;
-  const invoiceNumber = props.invoiceNumber;
   const { getUserOrgDetails } = useStore();
   const [orgDetails, setOrgDetails] = useState(null);
   const [orgLogoPic, setOrgLogoPic] = useState('');
@@ -75,7 +74,7 @@ const toWords = new ToWords();
       <div className="customerDetailsContainer">
         <div className="customerDetailsContainerChild1">
           <p className="customerInfoInvoicePreview">
-            <strong>Invoice #:</strong> {invoiceNumber}<br />
+            <strong>Invoice #:</strong> {formValues.invoiceNo}<br />
             <strong>Customer Details:</strong><br />
             <strong>Name:</strong> {formValues.customerName}<br />
             <strong>GSTIN:</strong> {formValues.customerGstNo}<br />
@@ -158,7 +157,7 @@ const toWords = new ToWords();
         <div style={{display:"flex", justifyContent:"space-between"}}>
         {/* Bank details and Signature component */}
         <div>
-            {orgDetails && <OrgBankDetails bankDetails={orgDetails} />}
+            {orgDetails && <OrgBankDetails orgDetails={orgDetails} />}
         </div>
         <div>
             {orgDetails && <AuthSignature signaturePic={orgDetails.orgOwnerSignaturePic} />}
