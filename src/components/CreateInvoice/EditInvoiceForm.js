@@ -10,15 +10,10 @@ import InvoicePreview from './InvoicePreview';
 import { useParams } from 'react-router-dom';
 import { Alert } from 'react-bootstrap';
 
-function GetUserDetails() {
-    let token = localStorage.getItem("token");
-    token = JSON.parse(atob(token.split('.')[1]));
-    let userId = token.id;
-    return userId  
-  }
-
 const EditInvoiceForm = () => {
-    const [userId] = useState(GetUserDetails());
+    const params = useParams();
+    const [invoiceId] = useState(params.invoiceId);
+    const [userId] = useState(params.userId);
     const [unitOptions] = useState([
       "Choose Unit..", "Brass", "Number", "Piece", "Bag/s", "Meters", "Each", "Kg/s", "Feet", "Box/es", "Liter/s"
     ]);
@@ -53,9 +48,6 @@ const EditInvoiceForm = () => {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [pdfUrl, setPdfUrl] = useState(null);
-    const params = useParams();
-    const [invoiceId] = useState(params.invoiceId);
-
 
     const handleInputChange = (e, index) => {
       const { name, value } = e.target;
@@ -277,6 +269,36 @@ const EditInvoiceForm = () => {
         input.style.position = '';
       });
     };
+
+    useEffect(()=>{
+
+        const getInvoiceDetails=async(invoiceId, userId)=>{
+            try{
+                let resp = await fetch(`https://invoicemakerserver.onrender.com/invoice/invoiceDetails/${invoiceId}`)
+                resp = await resp.json()
+                let data = resp.invoice[0]
+                setFormValues({
+                    ...formValues,
+                    customerName: data.customerName || "",
+                    customerGstNo: data.customerGstNo || "",
+                    customerMobileNo: data.customerMobileNo || "",
+                    customerBillingAddress: data.customerBillingAddress || "",
+                    customerCity: data.customerCity || "",
+                    customerState: data.customerState || "",
+                    customerZipCode: data.customerZipCode || "",
+                    invoiceNo: data.invoiceNo || "",
+                    invoiceDate: data.invoiceDate || "",
+
+                  });
+                
+
+            }catch(error){
+                console.error('Error fetching invoice details:', error);
+            }
+            
+        }
+        getInvoiceDetails(invoiceId, userId)
+    }, [])
 
   return (
     <div className="newInvoiceForm_Parent">

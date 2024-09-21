@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { toast } from "react-toastify";
 
 const StoreContext = React.createContext();
 
@@ -42,18 +43,22 @@ export function StoreProvider({children}) {
     async function handleSearchStore({searchQuery, userId, pageNumber=1}) {
         // console.log(searchQuery, "userId", userId);
         if (!searchQuery || !userId) {
-            console.error("Search query or userId is missing.");
+            toast.error("Search query or userId is missing.");
             return;
         }
         try {
             let resp = await fetch(`https://invoicemakerserver.onrender.com/invoice/${userId}/searchedquery/${encodeURIComponent(searchQuery)}?page=${pageNumber}&limit=${itemsPerPage}`);
             if (!resp.ok) {
+                toast.error(resp.status)
                 throw new Error(`HTTP error! Status: ${resp.status}`);
             }
             let data = await resp.json();
             setInvoices(data.searchedInvoices); // Store invoices in state
             setTotalPages(data.totalPages);
-            // console.log("Search results: ", data);
+            if(data.searchedInvoices.length ===0){
+                toast.error('No results found...')
+                return;
+            }
             return data;
         } catch (error) {
             console.error("Error searching: ", error.message);
